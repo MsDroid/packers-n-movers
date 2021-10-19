@@ -4,6 +4,7 @@
 function generateBill(){
 	var billDetails = [];
 
+var oaddress = document.getElementById('site_address').value;
 	var cadd1 = document.getElementById('cadd1').value;
 	var cadd2 = document.getElementById('cadd2').value;
 	var cadd3 = document.getElementById('cadd3').value;
@@ -15,6 +16,8 @@ function generateBill(){
 	var cp3 = document.getElementById('cp3').value;
 	var cp4 = document.getElementById('cp4').value;
 	var cp5 = document.getElementById('cp5').value;
+
+	var cemail = document.getElementById('cemail').value;
 	
 	// var consignorPin = cp0+''+cp1+''+cp2+''+cp3+''+cp4+''+cp5;
 
@@ -29,6 +32,7 @@ function generateBill(){
 		'cp3' : cp3,
 		'cp4' : cp4,
 		'cp5' : cp5,
+		'cemail' : cemail,
 		'consignorNo'  : cno
 		}
 	
@@ -50,6 +54,7 @@ function generateBill(){
 	var cnep4 = document.getElementById('cnep4').value;
 	var cnep5 = document.getElementById('cnep5').value;
 	
+	var cneemail = document.getElementById('cneemail').value;
 	// var consigneePin = cnep0+''+cnep1+''+cnep2+''+cnep3+''+cnep4+''+cnep5;
 
 	var consigneeobj = {
@@ -63,6 +68,7 @@ function generateBill(){
 		'cnep3' : cnep3,
 		'cnep4' : cnep4,
 		'cnep5' : cnep5,
+		'cneemail' : cneemail,
 		'consigneeNo'  : cneno
 		}
 

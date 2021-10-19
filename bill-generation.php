@@ -121,7 +121,7 @@ $consign_no = 'SNF-'.time();
 									<input type="number" id="cno" name="consignor-contact" class="bdr-none w100p">
 								</h6>
 								<h6>Email Id.
-									<input type="email" id="email" class="bdr-none w100p" required>
+									<input type="email" id="cemail" class="bdr-none w100p" required>
 								</h6>
 								<h6>
 									<table>
@@ -155,7 +155,7 @@ $consign_no = 'SNF-'.time();
 									<input type="number" id="cneno" name="consignor-contact" class="bdr-none w100p" required>
 								</h6>
 								<h6>Email Id.
-									<input type="email" id="email" class="bdr-none w100p" required>
+									<input type="email" id="cneemail" class="bdr-none w100p" required>
 								</h6>
 								<h6>
 									<table>
@@ -271,18 +271,18 @@ $consign_no = 'SNF-'.time();
 												<p style="margin-bottom: 0;" class="line-high">I hereby agree to the terms & Conditions printed will pay all charges as per Tariff / Agreement</p>
 												<div class="">
 													<div id="consignor-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="" alt="" width="200" height="100" id="cimg">
 													</div>
-												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#cModal">Consignor Signature</button>
+												<button type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="csign">Consignor Signature</button>
 											</div>
 											</td>
 											<!-- <td colspan="2" ><p class="rsign">Receiver's Signature</p></td> -->
 											<td colspan="2" style="position: relative;">
 												<div class="" style="position: absolute; width: 96%; text-align:center; bottom: 0;">
 													<div id="consignee-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="" alt="" width="200" height="100" id="cneimg">
 													</div>
-												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#rModal">Consignee Signature</button>
+												<button type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="cnesign" >Consignee Signature</button>
 											</div>
 											</td>
 										</tr>
@@ -467,71 +467,38 @@ $consign_no = 'SNF-'.time();
 		</form>
 
 	</main>
-
-	<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
-
-<!-- rModal -->
-<div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Consignor Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	<div>
+        <!-- sign one -->
+      <div class="flex-row" id="sign">
+         <div class="wrapper">
+             <canvas id="signature-pad" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear" type="button"><span> Clear </span></button>
+              <button id="save" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
       </div>
-      <div class="modal-body">
-        <div class="wrapper">
-           <canvas id="signature-pad" width="400" height="200"></canvas>
-       </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="clear" class="btn btn-primary">Clear</button>
-        <button type="button" id="save" class="btn btn-primary">Save</button>
-      </div>
-    </div>
+        <!-- sign 2 -->
+      <div class="flex-row" id="sign1">
+         <div class="wrapper">
+             <canvas id="signature-pad1" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear1" type="button"><span> Clear </span></button>
+              <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>  
+        <!-- sign 3 -->
+      <div class="flex-row" id="sign2">
+         <div class="wrapper">
+             <canvas id="signature-pad2" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear2" type="button"><span> Clear </span></button>
+              <button id="save2" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>  
   </div>
-</div>
-
-<!-- cModal -->
-<div class="modal fade" id="rModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Consignee Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- snfModal -->
-<div class="modal fade" id="snfModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">SafeNFast Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -550,47 +517,68 @@ $consign_no = 'SNF-'.time();
 
 <script>
 
-       var canvas = document.getElementById("signature-pad");
+	$(document).ready(function(){
+		$('#sign').hide(); 
+    $('#sign1').hide();
+    $('#sign2').hide();
+
+     let cSign = $('#cSign').click(function(){
+      // console.log("partySign");
+
+      $('#sign').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad");
 
        function resizeCanvas() {
            var ratio = Math.max(window.devicePixelRatio || 1, 1);
-           canvas.width = canvas.offsetWidth * ratio;
-           canvas.height = canvas.offsetHeight * ratio;
-           canvas.getContext("2d").scale(ratio, ratio);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
        }
        window.onresize = resizeCanvas;
        resizeCanvas();
 
-       var signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgb(250,250,250)'
-       });
+       let signaturePad = new SignaturePad(mycanvas);
 
        document.getElementById("clear").addEventListener('click', function(){
         signaturePad.clear();
        })
+
        document.getElementById("save").addEventListener('click', function(){
-        var img    = canvas.toDataURL("image/png");
+        var img    = mycanvas.toDataURL("image/png");
 
         // document.write('<img src="'+img+'"/>');
 
-        const base64Canvas = canvas.toDataURL("image/png").split(';base64,')[1];
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
         
-        sendSignToServer(base64Canvas);
+        sendPSignToServer(base64Canvas);
        })
-       function sendSignToServer(sig){
-       	$.ajax({
-			url : "thumbnail-uploader-content.php",
-		    method : "POST",
-		    data : {
-		    	'thumbnail':sig
-		    },
-			success:function(r){
-				console.log(r);
-					
-			}
-		});
-       }
-  
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#partySignImg').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#signChild').html(img_field);
+          $('#sign').hide();
+          
+          }
+        });
+      }
+    });
+
+	})
+
+       
   // =======================================================================
 		function getIns(){
 			let insp = document.getElementById('insp').value;
