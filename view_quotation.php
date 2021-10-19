@@ -1,0 +1,842 @@
+<?php
+
+include 'config.php';
+
+session_start();
+
+if(!isset($_SESSION['IS_LOGIN'])){
+  header("location:login.php");
+  
+}
+
+// if (isset($_GET['id']) & $_GET['id'] != '') {
+//   $id = $_GET['id'];
+
+//   $sql = "select * from bills where id = '$id'";
+//   $query = mysqli_query($con,$sql);
+//   $rows = mysqli_fetch_assoc($query);
+//   $x = json_decode($rows['data']);
+//   echo "<pre>";
+//   print_r($rows);
+//   print_r($x);
+//   echo "</pre>";
+//   }
+
+?>
+<!doctype html>
+  <html lang="en">
+
+  <head>
+    <!--  meta tags -->
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link href="assets/css/quotation.css" rel="stylesheet">
+    <title>Quotation</title>
+  </head>
+
+
+  <body>
+    <header id="topbar" style="margin:0;padding: 0;">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 topbar-wrapper">
+            <!-- <span><img class="logo" src="logo.png" alt="logo" width="200" /></span> -->
+            <p class="contact"><i class="fas fa-phone-alt no-icon"></i>9955797111</p>
+             <h1 class="title">SAFE N FAST <span style="font-size: 10px;">(Regd.)</span></h1>
+            <p class="p">A House of complete Transport Solution (Services All over India Door to Door)</p>
+            <select disabled class="form-control address" id="site_address" style="font-size: 10px;overflow: visible;width: 107%;text-align: center;border: none;margin: 0;padding: 0;">
+                    <option>Select Address</option>
+                    <?php
+                      $add_sql = "SELECT * from address";
+                      $add_query = mysqli_query($con, $add_sql);
+                      while ($arow = mysqli_fetch_assoc($add_query)) {
+                        echo "<option><p>".$arow['address']."</p></option>";    
+                      }
+                     ?>
+                  </select>
+            <!-- <p class="p">EWS 30, Harmu Housing Colony, Near Nigam Park, Harmu, Ranchi (JH)</p> -->
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-8">
+                <p class="p-br">COMMITMENT DELIVERY, EXCELLENT PACKING WITH EXPERT PACKERS</p>  
+              </div>
+              <div class="col-sm-2"></div>  
+            </div>
+          </div>
+          <div class="row cntr">
+            <div class="col-4 align-left">
+              <span class="sub-contact">Contact : 9955797111 / 9955172777</span>  
+            </div>
+            <div class="col-4">
+              <span class="sub-email">Email:- support@safenfast.in</span>  
+            </div>
+            <div class="col-4 align-right">
+              <span class="sub-website">Website : www.safenfast.in</span>    
+            </div>
+          </div>
+          <hr style="margin: 5px;">
+
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="content-wrapper" style="margin:0;padding: 0;">
+        <div class="container-fluid">
+          <form id="billForm">
+            <div class="row">
+              <div class="col-8 quotation-fields">
+                <div class="dflex">
+                  <h6>To,</br>
+                  Mr./Mrs./M/s </h6>&nbsp;&nbsp; &nbsp;
+                  <h6 class="w100p"></br><input disabled type="text" id="name" name="name" class="bdr-none w100p" placeholder="Name" ></h6> 
+                </div>
+                <div class="dflex">
+                  <h6>Address .</h6>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+                  <h6 class="w100p"></br><input disabled type="text" id="add1" name="address-1" class="bdr-none w100p" placeholder="Address" ></h6> 
+                </div>
+                 <div class="dflex">
+                  <h6 style="color:white;">Address .</h6>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+                  <h6 class="w100p"></br><input disabled type="text" name="address-1" id="add2" class="bdr-none w100p" placeholder="Address" ></h6> 
+                </div>
+                 <div class="dflex" style="justify-content: normal;">
+                    <div class="dflex">
+                        <h6>From:</h6>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                        <h6 class="w100p">
+                          <select class="bdr-none w100p" id="fromadd" name="from-add" disabled>
+                            <option class="">Select from</option>
+                            <?php 
+                            $city_sql= "SELECT * from cities ORDER BY city ASC";
+                            $city_query = mysqli_query($con,$city_sql);
+                            while ($cities = mysqli_fetch_assoc($city_query)){
+                              echo "<option value=".$cities['city'].">".$cities['city']."</option>";
+                            }
+                            ?>
+                          </select>
+                        </h6>
+                    </div> 
+                    <div class="dflex">
+                      <h6> &nbsp;&nbsp;&nbsp;To:</h6>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                        <h6 class="w100p">
+                          <select class="bdr-none w100p" id="toadd" name="to-add" disabled>
+                            <option class="">Select to</option>
+                            <?php 
+                            $city_sql= "SELECT * from cities ORDER BY city ASC";
+                            $city_query = mysqli_query($con,$city_sql);
+                            while ($cities = mysqli_fetch_assoc($city_query)){
+                              echo "<option value=".$cities['city'].">".$cities['city']."</option>";
+                            }
+                            ?>
+                          </select>
+                        </h6>
+                    </div>
+                    <div class="dflex">
+                      <h6 style="width: 100%"> &nbsp;&nbsp;&nbsp;Contact No.:</h6>
+                        <h6 class="w100p">
+                          <input disabled type="number" name="contact no" id="contact" class ="bdr-none w100p">
+                        </h6>
+                    </div>
+                    <div class="dflex" style="width:40%">
+                      <h6 style="">Email:</h6>
+                        <h6 class="w100p">
+                          <input type="email" name="" id="email" class ="bdr-none w100p">
+                        </h6>
+                    </div>
+                </div>
+              </div>
+              <div class="col-4 pd-l70">
+               <h2>QUOTATION</h2>
+               <div class="dflex">
+                 <h6>Govt Regd. No. :</h6>
+                 <h6></h6>
+               </div>
+               <div class="dflex">
+                 <h6>GSTIN No.:</h6>
+                 <h6>20AMGPV8554R1Z5</h6>
+               </div>
+               <div class="dflex">
+                 <h6>No. :</h6>
+                 <h6><input disabled class="bdr-none" disabled id="no" value="<?php ?>" type="text" name="no"></h6>
+               </div>
+               <div class="dflex">
+                 <h6>Date :</h6>
+                 <h6><input disabled class="bdr-none" id="date" value="<?php ?>" type="date" name="date"></h6>
+               </div>
+             </div>
+           </div>
+           <!-- quotation -->
+         </section>
+
+         <section id="table-wrapper">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-4">
+                <table class="table table-bordered table-sm tbl">
+                  <thead>
+                    <tr style="text-align:center;">
+                      <th scope="col" width="10%">Sl. No.</th>
+                      <th scope="col" width="40%" >PARTICULARS</th>
+                      <th scope="col" width="10%">Qty.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td scope="row">1</th>
+                      <td><input disabled type="text" id="n1" name="s1_name1" class="border-none tc"></td>
+                      <td><input disabled type="number" id="q1" name="s1_qty1" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">2</th>
+                      <td><input disabled id="n2" type="text" name="s2_name2" class="border-none tc"></td>
+                      <td><input disabled id="q2" type="number" name="s2_qty2" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">3</th>
+                      <td><input disabled id="n3" type="text" name="s3_name3" class="border-none tc"></td>
+                      <td><input disabled id="q3" type="number" name="s3_qty3" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">4</th>
+                      <td><input disabled id="n4" type="text" name="s4_name4" class="border-none tc"></td>
+                      <td><input disabled id="q4" type="number" name="s4_qty4" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">5</th>
+                      <td><input disabled id="n5" type="text" name="s5_name5" class="border-none tc"></td>
+                      <td><input disabled id="q5" type="number" name="s5_qty5" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">6</th>
+                      <td><input disabled id="n6" type="text" name="s6_name6" class="border-none tc"></td>
+                      <td><input disabled id="q6" type="number" name="s6_qty6" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">7</th>
+                      <td><input disabled id="n7" type="text" name="s7_name7" class="border-none tc"></td>
+                      <td><input disabled id="q7" type="number" name="s7_qty7" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">8</th>
+                      <td><input disabled id="n8" type="text" name="s8_name8" class="border-none tc"></td>
+                      <td><input disabled id="q8" type="number" name="s8_qty8" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">9</th>
+                      <td><input disabled id="n9" type="text" name="s9_name9" class="border-none tc"></td>
+                      <td><input disabled id="q9" type="number" name="s9_qty9" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">10</th>
+                      <td><input disabled id="n10" type="text" name="s10_name10" class="border-none tc"></td>
+                      <td><input disabled id="q10" type="number" name="s10_qty10" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">11</th>
+                      <td><input disabled id="n11" type="text" name="s11_name11" class="border-none tc"></td>
+                      <td><input disabled id="q11" type="number" name="s11_qty11" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">12</th>
+                      <td><input disabled id="n12" type="text" name="s12_name12" class="border-none tc"></td>
+                      <td><input disabled id="q12" type="number" name="s12_qty12" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">13</th>
+                      <td><input disabled id="n13" type="text" name="s13_name13" class="border-none tc"></td>
+                      <td><input disabled id="q13" type="number" name="s13_qty13" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">14</th>
+                      <td><input disabled id="n14" type="text" name="s14_name14" class="border-none tc"></td>
+                      <td><input disabled id="q14" type="number" name="s14_qty14" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">15</th>
+                      <td><input disabled id="n15" type="text" name="s15_name15" class="border-none tc"></td>
+                      <td><input disabled id="q15" type="number" name="s15_qty15" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">16</th>
+                      <td><input disabled id="n16" type="text" name="s16_name16" class="border-none tc"></td>
+                      <td><input disabled id="q16" type="number" name="s16_qty16" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">17</th>
+                      <td><input disabled id="n17" type="text" name="s17_name17" class="border-none tc"></td>
+                      <td><input disabled id="q17" type="number" name="s17_qty17" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">18</th>
+                      <td><input disabled id="n18" type="text" name="s18_name18" class="border-none tc"></td>
+                      <td><input disabled id="q18" type="number" name="s18_qty18" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">19</th>
+                      <td><input disabled id="n19" type="text" name="s19_name19" class="border-none tc"></td>
+                      <td><input disabled id="q19" type="number" name="s19_qty19" class="border-none tc"></td>
+                    </tr>
+                  </tbody>
+                </table>        
+              </div>
+              <div class="col-4">
+                <table class="table table-bordered table-sm tbl">
+                  <thead>
+                    <tr style="text-align:center;">
+                      <th scope="col" width="10%" >Sl. No.</th>
+                      <th scope="col" width="40%" >PARTICULARS</th>
+                      <th scope="col" width="10%" >Qty.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td scope="row">20</th>
+                      <td><input disabled id="n20" type="text" name="s23_name23" class="border-none tc"></td>
+                      <td><input disabled id="q20" type="number" name="s23_qty23" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">21</th>
+                      <td><input disabled id="n21" type="text" name="s24_name24" class="border-none tc"></td>
+                      <td><input disabled id="q21" type="number" name="s24_qty24" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">22</th>
+                      <td><input disabled id="n22" type="text" name="s25_name25" class="border-none tc"></td>
+                      <td><input disabled id="q22" type="number" name="s25_qty25" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">23</th>
+                      <td><input disabled id="n23" type="text" name="s26_name26" class="border-none tc"></td>
+                      <td><input disabled id="q23" type="number" name="s26_qty26" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">24</th>
+                      <td><input disabled id="n24" type="text" name="s27_name27" class="border-none tc"></td>
+                      <td><input disabled id="q24" type="number" name="s27_qty27" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">25</th>
+                      <td><input disabled id="n25" type="text" name="s28_name28" class="border-none tc"></td>
+                      <td><input disabled id="q25" type="number" name="s28_qty28" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">26</th>
+                      <td><input disabled id="n26" type="text" name="s29_name29" class="border-none tc"></td>
+                      <td><input disabled id="q26" type="number" name="s29_qty29" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">27</th>
+                      <td><input disabled id="n27" type="text" name="s30_name30" class="border-none tc"></td>
+                      <td><input disabled id="q27" type="number" name="s30_qty30" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">28</th>
+                      <td><input disabled id="n28" type="text" name="s31_name31" class="border-none tc"></td>
+                      <td><input disabled id="q28" type="number" name="s31_qty31" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">29</th>
+                      <td><input disabled id="n29" type="text" name="s32_name32" class="border-none tc"></td>
+                      <td><input disabled id="q29" type="number" name="s32_qty32" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">30</th>
+                      <td><input disabled id="n30" type="text" name="s33_name33" class="border-none tc"></td>
+                      <td><input disabled id="q30" type="number" name="s33_qty33" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">31</th>
+                      <td><input disabled id="n31" type="text" name="s34_name34" class="border-none tc"></td>
+                      <td><input disabled id="q31" type="number" name="s34_qty34" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">32</th>
+                      <td><input disabled id="n32" type="text" name="s35_name35" class="border-none tc"></td>
+                      <td><input disabled id="q32" type="number" name="s35_qty35" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">33</th>
+                      <td><input disabled id="n33" type="text" name="s36_name36" class="border-none tc"></td>
+                      <td><input disabled id="q33" type="number" name="s36_qty36" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">34</th>
+                      <td><input disabled id="n34" type="text" name="s37_name37" class="border-none tc"></td>
+                      <td><input disabled id="q34" type="number" name="s37_qty37" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">35</th>
+                      <td><input disabled id="n35" type="text" name="s38_name38" class="border-none tc"></td>
+                      <td><input disabled id="q35" type="number" name="s38_qty38" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">36</th>
+                      <td><input disabled id="n36" type="text" name="s39_name39" class="border-none tc"></td>
+                      <td><input disabled id="q36" type="number" name="s39_qty39" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">37</th>
+                      <td><input disabled id="n37" type="text" name="s40_name40" class="border-none tc"></td>
+                      <td><input disabled id="q37" type="number" name="s40_qty40" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">38</th>
+                      <td><input disabled id="n38" type="text" name="s41_name41" class="border-none tc"></td>
+                      <td><input disabled id="q38" type="number" name="s41_qty41" class="border-none tc"></td>
+                    </tr>
+                  </tbody>
+                </table> 
+              </div>
+              <div class="col-4">
+                <table class="table table-bordered table-sm tbl">
+                  <thead>
+                    <tr style="text-align:center;">
+                      <th scope="col" width="10%">Sl. No.</th>
+                      <th scope="col" width="40%">PARTICULARS</th>
+                      <th scope="col" width="10%">Qty.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td scope="row">39</th>
+                      <td><input disabled id="n39" type="text" name="s45_name45" class="border-none tc"></td>
+                      <td><input disabled id="q39" type="number" name="s45_qty45" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">40</th>
+                      <td><input disabled id="n40" type="text" name="s46_name46" class="border-none tc"></td>
+                      <td><input disabled id="q40" type="number" name="s46_qty46" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">41</th>
+                      <td><input disabled id="n41" type="text" name="s47_name47" class="border-none tc"></td>
+                      <td><input disabled id="q41" type="number" name="s47_qty47" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">42</th>
+                      <td><input disabled id="n42" type="text" name="s48_name48" class="border-none tc"></td>
+                      <td><input disabled id="q42" type="number" name="s48_qty48" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">43</th>
+                      <td><input disabled id="n43" type="text" name="s49_name49" class="border-none tc"></td>
+                      <td><input disabled id="q43" type="number" name="s49_qty49" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">44</th>
+                      <td><input disabled id="n44" type="text" name="s50_name50" class="border-none tc"></td>
+                      <td><input disabled id="q44" type="number" name="s50_qty50" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">45</th>
+                      <td><input disabled id="n45" type="text" name="s51_name51" class="border-none tc"></td>
+                      <td><input disabled id="q45" type="number" name="s51_qty51" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">46</th>
+                      <td><input disabled id="n46" type="text" name="s52_name52" class="border-none tc"></td>
+                      <td><input disabled id="q46" type="number" name="s52_qty52" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">47</th>
+                      <td><input disabled id="n47" type="text" name="s53_name53" class="border-none tc"></td>
+                      <td><input disabled id="q47" type="number" name="s53_qty53" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">48</th>
+                      <td><input disabled id="n48" type="text" name="s54_name54" class="border-none tc"></td>
+                      <td><input disabled id="q48" type="number" name="s54_qty54" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">49</th>
+                      <td><input disabled id="n49" type="text" name="s55_name55" class="border-none tc"></td>
+                      <td><input disabled id="q49" type="number" name="s55_qty55" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">50</th>
+                      <td><input disabled id="n50" type="text" name="s56_name56" class="border-none tc"></td>
+                      <td><input disabled id="q50" type="number" name="s56_qty56" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">51</th>
+                      <td><input disabled id="n51" type="text" name="s57_name57" class="border-none tc"></td>
+                      <td><input disabled id="q51" type="number" name="s57_qty57" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">52</th>
+                      <td><input disabled id="n52" type="text" name="s58_name58" class="border-none tc"></td>
+                      <td><input disabled id="q52" type="number" name="s58_qty58" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">53</th>
+                      <td><input disabled id="n53" type="text" name="s59_name59" class="border-none tc"></td>
+                      <td><input disabled id="q53" type="number" name="s59_qty59" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">54</th>
+                      <td><input disabled id="n54" type="text" name="s60_name60" class="border-none tc"></td>
+                      <td><input disabled id="q54" type="number" name="s60_qty60" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">55</th>
+                      <td><input disabled id="n55" type="text" name="s61_name61" class="border-none tc"></td>
+                      <td><input disabled id="q55" type="number" name="s61_qty61" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">56</th>
+                      <td><input disabled id="n56" type="text" name="s62_name62" class="border-none tc"></td>
+                      <td><input disabled id="q56" type="number" name="s62_qty62" class="border-none tc"></td>
+                    </tr>
+                    <tr>
+                      <td scope="row">57</th>
+                      <td><input disabled id="n57" type="text" name="s63_name63" class="border-none tc"></td>
+                      <td><input disabled id="q57" type="number" name="s63_qty63" class="border-none tc"></td>
+                    </tr>
+                  </tbody>
+                </table> 
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-7 comments">
+                <h3>Comments :</h3>
+                <div class="dflex">
+                  <h6 style="width:40%;">From Floor</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="from-floor" placeholder="">
+                  </h6>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">To Floor</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="to-floor" placeholder="">
+                  </h6>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">How many days Reqd. for packing</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="packing_date_no" placeholder="">
+                  </h6>
+                </div>
+
+              
+                <div class="dflex">
+                  <h6 style="width:40%;">Packing Date & time</h6>
+                  <h6 class="w100p">
+                    <input disabled type="date" class="bdr-none w100p" id="packing_date">
+                  </h6>
+                </div>
+
+                 <div class="dflex">
+                  <h6 style="width:40%;">Date of Loading</h6>
+                  <h6 class="w100p">
+                    <input disabled type="date" class="bdr-none w100p" id="loading_date">
+                  </h6>
+                </div>
+
+                 <div class="dflex">
+                  <h6 style="width:40%;">Lorry Type</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="lorry_type">
+                  </h6>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">Loading Place is in "No Entry Zone"</h6>
+                  <span>
+                    <input disabled type="radio" value="Yes" id="Yes" name="noentry_checked">&nbsp;Yes&nbsp;
+                    <input disabled type="radio" value="No" id="No" name="noentry_checked">&nbsp;no
+                  </span>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">At What Distance Lorry will stand at loading place</h6>
+                  <h6 class="w100p">
+                    <input disabled type="number" class="bdr-none w100p" id="loading_diatance" placeholder="" >
+                  </h6>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">At What Distance Lorry will stand at uploading place</h6>
+                  <h6 class="w100p">
+                    <input disabled type="number" class="bdr-none w100p" id="uploading_diatance" placeholder="">
+                  </h6>
+                </div>
+
+                 <div class="dflex">
+                  <h6 style="width:40%;">Packing Requirement on Packing Day</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="packing_requirement">
+                  </h6>
+                </div>
+               
+               <div class="dflex">
+                  <h6 style="width:40%;">Labour Requirement on Loading Day</h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="labour_requirement">
+                  </h6>
+                </div>
+
+               <div class="dflex">
+                  <h6 style="width:40%;">Payment Mode</h6>
+                  <div style="width:100%">
+                    <select class="bdr-none w100p" id="payment_mode">
+                      <option disabled>Select Payment Mode</option>
+                      <option >Credit Card</option>
+                      <option >Debit Card</option>
+                      <option >Cash on Delivery</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">Advance / Token Money Paid : Rs. </h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="adv_token">
+                  </h6>
+                </div>
+
+                <div class="dflex">
+                  <h6 style="width:40%;">Amount Due : Rs. </h6>
+                  <h6 class="w100p">
+                    <input disabled type="text" class="bdr-none w100p" id="amt_due">
+                  </h6>
+                </div>
+              </div>
+              <div class="col-5 charges">
+                <table class="table table-bordered table-sm border-danger tbl">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="tc">Services</th>
+                      <th scope="col" class="tc">Charges</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Packing</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_packing_no" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Transportation</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_transportation" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Loading</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_loading" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Uploading</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_uploading" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Unpacking & Adjusting</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_unpacking" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Escorting</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_escorting" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Storage</td>
+                      <td><input disabled type="number" onchange="getQuotation()" value="0" id="charge_storage" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td style="background-color: firebrick;color: white;">Sub - Total</td>
+                      <td style="background-color:firebrick;"><input disabled style="background-color: firebrick;color: white;border: none;font-weight: 900;" type="number" disabled value="0" id="charge_sub_total" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>CSGT <input disabled onchange="cGst()" type="number" value="0" id="csgtp" class="bdr-none txtr">%</td>
+                      <td><input disabled type="number" value="0" id="csgt" disabled class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>SGST <input disabled onchange="sGst()" type="number" value="0" id="sgstp" class="bdr-none txtr">%</td>
+                      <td><input disabled type="number" value="0" id="sgst" disabled class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td>Insurance (Basic / All Risk)</td>
+                      <td><input disabled type="number" onchange="grandTotal()" value="0" id="insurance" class="bdr-none txtr"></td>
+                    </tr>
+                    <tr>
+                      <td style="background-color: firebrick;color: white;">Grand Total</td>
+                      <td style="background-color:firebrick;"><input disabled style="background-color: firebrick;color: white;border: none;font-weight: 900;" disabled type="number" value="0" id="grand_total" class="bdr-none txtr"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-3">
+                <div>
+                <img src="" alt="signature" width="200" height="100" id="psign">
+                </div>
+
+                <p>Party Signature</p>  
+              </div>
+              <div class="col-sm-4 bdr ">
+                <p>Rs. in Words <input disabled type="text" id="rs" class="bdr-none w100p"></br>
+                  </p>
+              </div>
+              <div class="col-sm-4 bdr ml5">
+                <p>For SAFE & FAST</p>
+                <img src="" alt="" width="200" height="100" id="osign">
+                <h6>Executive</h6>
+              </div>
+            </div>
+            
+          </div>
+        </section>
+
+      </main>
+
+
+      <footer>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-2 left-side">
+              <!-- <div>
+                <img src="" alt="signature" width="100" id="psign">
+              </div>
+
+                <p>Party Signature</p>   -->
+            </div>
+            <div class="col-6">
+              <p>Service all over India</p>
+            </div>
+            <div class="col-4">
+              <p> We are Provide IBA Approved Bill </p>  
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <a href="quotationlist.php">
+            <button type="button" class="btn btn-primary">Back</button>
+          </a>
+          <!-- <button class="btn btn-success" type="button" name="btn" onclick="quotation();">Generate Quotation</button> -->
+        </div>
+      </form>
+    </footer>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- custom js -->
+    <script src="assets/script.js"></script>
+
+    <script src="assets/js/quotation.js"></script>
+    <!-- fetch all data -->
+    <script type="text/javascript">
+       
+         $.ajax({
+              url : "api/get-quotation.php",
+              method : "POST",
+              data : {'id':<?php echo $_GET['id']; ?>},
+              success:function(r){
+                
+                let x = jQuery.parseJSON(r);
+                let y = jQuery.parseJSON(x.qjson);
+                let z = jQuery.parseJSON(x.qcjson);
+                // console.log(x.tbldata);
+                // console.log(z);
+                $("#site_address").val(x.oaddress);
+                $("#email").val(x.email);
+                $("#contact").val(x.contact);
+                $("#name").val(x.name);
+                $("#add1").val(x.add1);
+                $("#add2").val(x.add2);
+                $("#fromadd").val(x.fromadd);
+                $("#toadd").val(x.toadd);
+                $("#no").val(x.no);
+                $("#date").val(x.cdate);
+
+                $("#from-floor").val(y.ff);
+                $("#to-floor").val(y.tf);
+                $("#packing_date_no").val(y.pkno);
+                $("#packing_date").val(y.pkdt);
+                $("#loading_date").val(y.ldt);
+                $("#lorry_type").val(y.lt);
+                $("#payment_mode").val(y.pm);
+                $("#osign").attr("src","upload/"+y.osign);
+                $("#psign").attr("src","upload/"+y.psign);
+                // console.log(y.psign);
+                // radio button
+                let yck = document.getElementById('Yes').value;
+                (y.neck=='Yes')?document.getElementById('Yes').checked = true :document.getElementById('Yes').checked = false;
+
+                let nck = document.getElementById('No').value;
+                (y.neck =='No')?document.getElementById('No').checked = true :document.getElementById('No').checked = false;
+
+                
+                $("#loading_diatance").val(y.ld);
+                $("#uploading_diatance").val(y.ud);
+                $("#packing_requirement").val(y.pr);
+                $("#labour_requirement").val(y.lr);
+                $("#adv_token").val(y.at);
+                $("#amt_due").val(y.ad);
+
+
+                // radio button
+                //  let ypck = document.getElementById('payment_yes').value;
+                //  // console.log(ypck);
+                // (y.pm=='Yes')?document.getElementById('payment_yes').checked = true :document.getElementById('payment_yes').checked = false;
+
+                // let npck = document.getElementById('payment_no').value;
+                // (y.pm =='No')?document.getElementById('payment_no').checked = true :document.getElementById('payment_no').checked = false;
+
+
+                // charge table
+                $("#charge_packing_no").val(z.cpn);
+                $("#charge_transportation").val(z.ct);
+                $("#charge_loading").val(z.cl);
+                $("#charge_uploading").val(z.cupl);
+                $("#charge_unpacking").val(z.cupk);
+                $("#charge_escorting").val(z.ce);
+                $("#charge_storage").val(z.cs);
+                $("#charge_sub_total").val(z.cst);
+                $("#csgt").val(z.cgst);
+                $("#csgtp").val(z.cgstp);
+                $("#sgst").val(z.sgst);
+                $("#sgstp").val(z.sgstp);
+                $("#insurance").val(z.ins);
+                $("#grand_total").val(z.gt);
+                $("#rs").val(z.rs);
+              
+
+
+
+
+                let o = jQuery.parseJSON(x.tbldata);
+                // console.log(o.length);
+                for (let i = 0; i < o.length; i++)
+                {
+                  insertFetchData(o[i], i+1);
+                }
+
+                function insertFetchData(data,i){
+                    $("#n"+i).val(data.name);
+                    $("#q"+i).val(data.quantity);
+                   
+                }
+                
+              }
+            })
+
+   
+    </script>
+</body>
+
+  </html>

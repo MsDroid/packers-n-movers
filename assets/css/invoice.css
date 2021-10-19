@@ -1,0 +1,85 @@
+header{
+	margin-top: 10px;
+}
+
+main,header,.form-control{
+	background-color: cornsilk;
+}
+.txtcntr{
+	text-align: center;
+}
+.dflex{
+	display: flex;
+	justify-content: space-between;
+}
+.dflexc{
+	display: flex!important;
+}
+h1{
+	font-size: 150%;
+	text-align: center;
+	background-color: firebrick;
+	margin: 0;
+	color: white;
+}
+p{
+	font-size: 14px;
+    text-align: center;
+    margin: 0;
+}
+.bdr-none{
+	border-bottom: 1px dotted;
+	border-left: none;
+	border-top: none;
+	border-right: none;
+	font-size: 12px;
+    padding: 0;
+    padding-left: 10px;
+}
+.bn{
+	border-bottom: 1px dotted;
+	border-left: none;
+	border-top: none;
+	border-right: none;
+	font-size: 12px;
+    padding: 0;
+    padding-left: 10px;
+}
+.txt-right{
+	text-align: right;
+}
+.lb{
+	border-left: 2px solid firebrick;
+}
+thead{
+	background-color: firebrick;
+	color: white;
+}
+.mb10{
+	margin-bottom: 10px;
+}
+tfoot{
+	border-bottom: 1px;
+}
+.w100p{
+	width: 100%;
+}
+
+.w80p{
+	width: 80%;
+}
+.txtl{
+	text-align: left;
+	margin-top: 10%;
+}
+.bgcol{
+	   background-color: firebrick!important;
+    color: white;
+}
+.bt{
+	border-top: 2px solid;
+}
+/*tbody td:last-child{
+	text-align: right;
+}*/
+

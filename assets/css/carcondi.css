@@ -1,0 +1,259 @@
+/*---------------------------------------------------------------------------------------*/
+/*car condition report*/
+/*---------------------------------------------------------------------------------------*/
+#car_condition_topbar{
+  background-color: firebrick;
+  color: white;
+}
+
+.tar{
+  text-align: right;
+  padding: 10px;
+}
+
+.hno{
+  /*background-color: black;*/
+  color: white;
+  font-weight: 600;
+  border: 1px solid ;
+  border-radius: 25px;
+  padding: 2px 10px;
+}
+
+.cleft-s h1{
+  display: inline-block;
+    margin: 2px 5px;
+    font-weight: 900;
+    vertical-align: middle;
+}
+.hcard{
+  border-left: 2px solid;
+}
+
+.hcard h5{
+  font-size: 14px;
+    font-weight: 600;
+}
+
+.hcard p{
+  font-size: 12px;
+    margin-bottom: 0;
+}
+
+.txt-center{
+  text-align: center; 
+  text-decoration: underline;
+}
+.tc{
+  text-align: center;
+}
+.txtr{
+  text-align: right;
+}
+
+.sno{
+  margin: 15px;
+    font-weight: 600;
+}
+
+.title-c{
+  text-align: center;
+  font-weight: 600;
+  /*background-color: black;*/
+    margin: 0;
+    /*color: white;*/
+    padding-top: 10px;
+}
+
+.txt-right{
+ float: right;
+ padding-right: 40px;
+ font-weight: 600;
+ padding-top: 10px;
+}
+.txt-align-right{
+  text-align: right;
+  width: 90%;
+}
+.ml5{
+  margin-left: 5px;
+}
+
+.btm{
+  text-align: center;
+  border: 1px solid;
+  margin-top: 15px;
+  background-color: firebrick;
+  color: white;
+}
+
+.btm h3{
+     font-weight: 600;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.cntr-acces{
+      text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: underline;
+    /*margin: 10px;*/
+    /*background-color: black;*/
+    /*color: white;*/
+}
+
+.lft-tbl{
+  font-size: 14px;
+}
+
+.c-tbl td{
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.tbl td{
+ padding-top: 3px;
+  padding-bottom: 3px; 
+}
+.w75{
+  width: 70%;
+}
+
+.w40{
+  width: 40%;
+}
+.td-para p{
+  line-height: 18px;
+}
+
+.c-tbl{
+  font-size: 12px;
+}
+
+.note p{
+  border: 1px solid;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 0;
+}
+.c-sign h3{
+    font-size: 16px;
+    font-weight: 600;
+    vertical-align: bottom;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.c-thnk h4{
+font-size: 14px;
+    text-align: center;
+}
+
+.c-thnk h3{
+  font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.d{
+  margin: 0;
+}
+.flot-left{
+  float: left;
+}
+
+.w60p{
+  width: 60%;
+}
+
+.w30p{
+  width: 30%;
+}
+
+.bg-col{
+  background-color: firebrick;
+  color: white;
+}
+
+.user-create{
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.small-box{
+      border-radius: .25rem;
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.bg-info{
+      background-color: #17a2b8!important;
+}
+
+.small-box h3{
+  font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+    padding: 0;
+    white-space: nowrap;
+}
+.small-box h3, .small-box p {
+  z-index: 5;
+}
+
+.bg-info, .bg-info>a {
+    color: #fff!important;
+}
+
+.small-box>.inner {
+    padding: 20px;
+}
+
+.small-box .icon {
+    color: rgba(0,0,0,.15);
+    z-index: 0;
+}
+
+.icon {
+    margin-right: 5px;
+    /*color: green;*/
+}
+
+.small-box .icon>i {
+    font-size: 90px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    transition: -webkit-transform .3s linear;
+    transition: transform .3s linear;
+    transition: transform .3s linear,-webkit-transform .3s linear;
+}
+
+.adUserbtn{
+  float: right;
+    margin-bottom: 10px;
+}
+
+.tbl tbody{
+  text-align: center;
+}
+.stbg{
+  background-color: firebrick;
+  color: white;
+}
+
+.tdbg{
+  background-color: firebrick;
+}
+
+.inpbg{
+  color: white;
+  background-color: firebrick;
+  border: none;
+}
