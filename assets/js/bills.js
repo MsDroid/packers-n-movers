@@ -2,9 +2,11 @@
 // bill generation
 // ======================================================================================================
 function generateBill(){
-	var billDetails = [];
+	// var billDetails = [];
 
-var oaddress = document.getElementById('site_address').value;
+	var oaddress = document.getElementById('site_address').value;
+alert(oaddress);
+console.log(oaddress);
 	var cadd1 = document.getElementById('cadd1').value;
 	var cadd2 = document.getElementById('cadd2').value;
 	var cadd3 = document.getElementById('cadd3').value;
@@ -135,6 +137,9 @@ var oaddress = document.getElementById('site_address').value;
     var ownerno = document.getElementById('owner_no').value;
 	var pc = document.getElementById('party_collection').value;
 	var dp = document.getElementById('driver_paid').value;
+	var csign = document.getElementById('csv').value;
+	var cnesign = document.getElementById('cnesv').value;
+	var snfsign = document.getElementById('snfsv').value;
 
 	
 	const insuredobj ={
@@ -150,6 +155,9 @@ var oaddress = document.getElementById('site_address').value;
 		'ownerno' : ownerno,
 		'pc' : pc,
 		'dp' : dp,
+		'csign' : csign,
+		'cnesign' : cnesign,
+		'snfsign' : snfsign,
 		'unloading' : unloadingselect,
 		'unpacking' : unpackingselect,
 		'adjusting' : adjustingselect 
@@ -186,7 +194,10 @@ var sgstvalue = document.getElementById('sgst').value;
 var entrytax = document.getElementById('entry-tax').value;
 var grandtotal = document.getElementById('grand-total').value;
 var amtinword = document.getElementById('amtinword').value;
-let chargeTblArr = [];
+var insp = document.getElementById('insp').value;
+var insv = document.getElementById('insv').value;
+
+
 chargeTblString = {
 	'created_date':created_date,
 	'dktCharge' : dktCharge,
@@ -206,6 +217,8 @@ chargeTblString = {
 	'sgstvalue' : sgstvalue,
 	'entrytax' : entrytax,
 	'grandtotal' : grandtotal,
+	'insp' : insp,
+	'insv' : insv,
 	'amtinword' : amtinword
 }
 
@@ -224,7 +237,7 @@ let officeAddress = document.getElementById('site_address').value;
 
 let dataString = 'officeAddress=' + officeAddress + '&name=' + name + '&inspt=' + insuredPersonType + '&consign_no=' + consign_no + '&fromadd=' + fromAdd + '&toadd=' + toAdd + '&data=' + data;
 
-if(insuredPersonType != '' && name !='' && fromAdd !='' && toAdd !='' && created_date!=''){
+// if(insuredPersonType != '' && name !='' && fromAdd !='' && toAdd !='' && created_date!=''){
 
 $.ajax({
 	url : "api/createBill.php",
@@ -233,16 +246,16 @@ $.ajax({
 	success:function(r){
 		if(true){
 			alert("Successfully Created!");
-			window.location.href='bill-generationlist.php';
+			// window.location.href='bill-generationlist.php';
 		}else{
 			alert("Somthing Wrong, Please Try Again!");
 		}	
 	}
 });
 
-}else{
-	alert("Please Enter Insured Type, Name, Ship from, Ship to and Date!");
-}
+// }else{
+// 	alert("Please Enter Insured Type, Name, Ship from, Ship to and Date!");
+// }
 
 
 }
@@ -488,6 +501,7 @@ $.ajax({
 }
 function getValue(arrrr) {
 			//Get Data from subtotal
+			// alert("heelo");
 			let st = getCheckValue("sub-total");
 
 			// GET Form data
@@ -501,9 +515,10 @@ function getValue(arrrr) {
 			let i = getCheckValue("escorting");
 			let j = getCheckValue("ins");
 			let k = getCheckValue("other");
+			// console.log(j, "ugwdywgdwygd");
 			let amountTotal = a + b + c + d + e + f + g + i + j + k;
-			console.log(amountTotal);
-			document.getElementById("sub-total").value = parseFloat(amountTotal);
+			// console.log(amountTotal);
+			document.getElementById("sub-total").value = amountTotal.toFixed(2);
 			// cGst();
 		}
 
@@ -519,7 +534,7 @@ function getValue(arrrr) {
 			let y = parseFloat(a);
 
 			let z = (x * y)/100;
-			document.getElementById("cgst-value").value = z;
+			document.getElementById("cgst-value").value = z.toFixed(2);
 		}
 
 		function sGST(){
@@ -533,7 +548,7 @@ function getValue(arrrr) {
 			// console.log(x,y);
 
 			let z = (x * y)/100;
-			document.getElementById("sgst-value").value = parseFloat(z);
+			document.getElementById("sgst-value").value = z.toFixed(2);
 		}
 
 		function grandTotal() {
@@ -551,7 +566,7 @@ function getValue(arrrr) {
 			d = parseFloat(entrytax);
 			
 			let z = a + b + c + d;
-			document.getElementById('grand-total').value = parseFloat(z); 
+			document.getElementById('grand-total').value = z.toFixed(2); 
 
 		}
 

@@ -27,46 +27,57 @@ $consign_no = 'SNF-'.time();
 
 	<title>Consignee Copy</title>
 	<style type="text/css">
-    	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
-		/** {
-		    padding: 0;
-		    margin: 0;
-		    font-family: 'Poppins', sans-serif;
-		}*/
-		/*body {
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		    height: 100vh;
-		    width: 100vw;
-		    background: #ececec;
-		    overflow: hidden;
-		}*/
-		.flex-row {
-		    display: flex;
-		}
-		.wrapper {
-		    border: 1px solid #4b00ff;
-		    /*border-right: 0;*/
-		}
-		canvas#signature-pad {
-		    background: #fff;
-		    width: 100%;
-		    height: 100%;
-		    cursor: crosshair;
-		}
-		/*button#clear {
-		    height: 100%;
-		    background: #4b00ff;
-		    border: 1px solid transparent;
-		    color: #fff;
-		    font-weight: 600;
-		    cursor: pointer;
-		}*/
-		/*button#clear span {
-		    transform: rotate(90deg);
-		    display: block;
-		}*/
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+    /** {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #ececec;
+        overflow: hidden;
+    }*/
+    .flex-row {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+    }
+    .wrapper {
+        border: 1px solid #4b00ff;
+        border-right: 0;
+    }
+    canvas#signature-pad,canvas#signature-pad1,canvas#signature-pad2 {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+    }
+    button#clear,button#clear1,button#clear2 {
+        height: 100%;
+        background: #4b00ff;
+        border: 1px solid transparent;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    button#clear span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear1 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear2 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+  
     </style>
 </head>
 <body>
@@ -88,11 +99,11 @@ $consign_no = 'SNF-'.time();
 									<select class="form-control address" id="site_address" style="font-size: 10px;overflow: visible;width: 107%;text-align: center;border: none;margin: 0;padding: 0;white-space: normal;">
 										<option>Select Address</option>
 										<?php
-											$add_sql = "SELECT * from address";
-											$add_query = mysqli_query($con, $add_sql);
-											while ($arow = mysqli_fetch_assoc($add_query)) {
-												echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
-											}
+											$oadd_sql = "SELECT * from address";
+											$oadd_query = mysqli_query($con, $oadd_sql);
+											while ($oarow = mysqli_fetch_assoc($oadd_query)) { ?>
+												<option value="<?php echo $oarow['address']; ?>"><p><?php echo $oarow['address']; ?></p></option>;		
+											 <?php }
 										 ?>
 									</select>
 									<!-- <p>SWARN JAYANTI NAGAR, ROAD NO - 05, NEAR SHIV MANDIR MADHUKAM, RANCHI - 834001, JHARKHAND,INDIA</p> -->
@@ -233,7 +244,7 @@ $consign_no = 'SNF-'.time();
 													<td style="font-size: 10px;text-align: center;"><span class="f12">Yes</span>
 														<input type="radio" value="Yes" id="adjusting_check_yes" name="adjusting_check" class="bdr-none">
 														<span class="f12">No</span> 
-														<input type="radio" value="No " id="adjusting_check_no" name="adjusting_check" class="bdr-none">
+														<input type="radio" value="No" id="adjusting_check_no" name="adjusting_check" class="bdr-none">
 													</td>
 												</tr>
 												<tr>
@@ -273,6 +284,7 @@ $consign_no = 'SNF-'.time();
 													<div id="consignor-sign">
 														<img src="" alt="" width="200" height="100" id="cimg">
 													</div>
+													<input type="hidden" id="csv" name="" value="">
 												<button type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="csign">Consignor Signature</button>
 											</div>
 											</td>
@@ -282,6 +294,7 @@ $consign_no = 'SNF-'.time();
 													<div id="consignee-sign">
 														<img src="" alt="" width="200" height="100" id="cneimg">
 													</div>
+													<input type="hidden" id="cnesv" name="" value="">
 												<button type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="cnesign" >Consignee Signature</button>
 											</div>
 											</td>
@@ -393,7 +406,7 @@ $consign_no = 'SNF-'.time();
 										<input type="text" id="insv" class="bdr-none" value="0" onchange="getIns();" style="width: 20%; text-align:right;">
 									</td>
 									<td>
-										<input type="number" id="ins" value="0" name="ser_chr9" class="bdr-none w100p text-right" >
+										<input type="text" id="ins" value="0" onchange="getValue('ins');" name="ser_chr9" class="bdr-none w100p text-right" >
 									</td>
 								</tr>
 								<tr>
@@ -403,7 +416,7 @@ $consign_no = 'SNF-'.time();
 								<tr class="cst-tr">
 									<td style="background-color: firebrick;color: white;" class="pd5">Sub. Total</td>
 									<td style="background-color: firebrick;">
-										<input type="text" id="sub-total" value="0" style="color: white;background-color: firebrick;border: none;" disabled name="ser_chr11" class="bdr-none w100p text-right">
+										<input type="text" id="sub-total" value="0" style="color: white;background-color: firebrick;border: none;"  name="ser_chr11" class="bdr-none w100p text-right">
 									</td>
 								</tr>
 								<tr>
@@ -431,7 +444,7 @@ $consign_no = 'SNF-'.time();
 								<tr class="cst-tr">
 									<td style="background-color: firebrick;color: white;">Grand Total</td>
 									<td style="background-color: firebrick;">
-										<input type="number" style="color: white;background-color: firebrick;border: none;" id="grand-total" disabled value="0" name="ser_chr15" class="bdr-none w100p text-right" ></td>
+										<input type="number" style="color: white;background-color: firebrick;border: none;" id="grand-total"  value="0" name="ser_chr15" class="bdr-none w100p text-right" ></td>
 									
 								</tr>
 								<tr>
@@ -442,8 +455,11 @@ $consign_no = 'SNF-'.time();
 								<tr>
 									<td colspan="2" style="position:relative;">
 										<div style="position: absolute;width: 96%;text-align: center;">
-											<img src="" alt="" width="100%" height="100px">
-											<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#snfModal">Signature
+											<div id="snfsignimg">
+												<img src="" alt="" width="100%" height="100px">	
+											</div>
+											<input type="hidden" id="snfsv" name="" value="">
+											<button type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="snfsign">Signature
 											</button>
 											<span class="ftitle" style="padding-top: 10%!important;display: inline-block;width: 100%;" >
 												For SAFE & FAST
@@ -510,10 +526,10 @@ $consign_no = 'SNF-'.time();
 	<!-- custom bill js -->
 	<script src="assets/js/bills.js"></script>
 	<!-- custom js -->
-	<script src="assets/script.js"></script>
+	<!-- <script src="assets/script.js"></script> -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js" integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
 
 <script>
 
@@ -522,7 +538,10 @@ $consign_no = 'SNF-'.time();
     $('#sign1').hide();
     $('#sign2').hide();
 
-     let cSign = $('#cSign').click(function(){
+// =====================================================================================
+// consignor sign
+// ======================================================================================
+    $('#csign').click(function(){
       // console.log("partySign");
 
       $('#sign').show();
@@ -563,18 +582,143 @@ $consign_no = 'SNF-'.time();
           'thumbnail':sig
           },
           success:function(r){
-          console.log(r);
+          // console.log(r);
           let x = jQuery.parseJSON(r);
           // console.log(x.img_name);
-          $('#partySignImg').val(x.img_name);
+          $('#csv').val(x.img_name);
           let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
-          $('#signChild').html(img_field);
+          $('#cimg').hide();
+          $('#consignor-sign').html(img_field);
           $('#sign').hide();
           
           }
         });
       }
     });
+
+  // ====================================================================================
+  // consignee signature
+  // ====================================================================================
+
+	$('#cnesign').click(function(){
+      // console.log("partySign");
+
+      $('#sign1').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad1");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear1").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save1").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#cnesv').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#cneimg').hide();
+          $('#consignee-sign').html(img_field);
+          $('#sign1').hide();
+          
+          }
+        });
+      }
+    });
+
+// ==================================================================================
+
+// ====================================================================================
+  // snf signature
+  // ====================================================================================
+
+	$('#snfsign').click(function(){
+      // console.log("partySign");
+
+      $('#sign2').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad2");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear2").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save2").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#snfsv').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#cneimg').hide();
+          $('#snfsignimg').html(img_field);
+          $('#sign2').hide();
+          
+          }
+        });
+      }
+    });
+
+// ==================================================================================
+
+
 
 	})
 
@@ -587,7 +731,11 @@ $consign_no = 'SNF-'.time();
 			let y = parseFloat(insv);
 
 			let famt = (x * y)/100;
-			document.getElementById('ins').value = parseFloat(famt);
+			// console.log(document.getElementById('ins').value);
+			document.getElementById('ins').value = parseFloat(famt.toFixed(2));
+			// console.log(document.getElementById('ins').value);
+			getValue('ins');
+
 		}
 
 		

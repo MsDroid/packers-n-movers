@@ -13,10 +13,10 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
   $query = mysqli_query($con,$sql);
   $rows = mysqli_fetch_assoc($query);
   $x = json_decode($rows['data']);
-  // echo "<pre>";
-  // print_r($rows);
-  // print_r($x);
-  // echo "</pre>";
+  echo "<pre>";
+  print_r($rows);
+  print_r($x);
+  echo "</pre>";
   }
 
 ?>
@@ -57,7 +57,17 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 											$add_sql = "SELECT * from address";
 											$add_query = mysqli_query($con, $add_sql);
 											while ($arow = mysqli_fetch_assoc($add_query)) {
-												echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
+												if($arow['address'] == $rows['oaddress']){ ?>
+											
+													<option value="<?php echo $arow['address']; ?>" selected><?php echo $arow['address']; ?></option>";
+											
+											<?php	}else{ ?>
+											
+													<option value="<?php echo $arow['address']; ?>" ><?php echo $arow['address'];?></option>";
+											
+											<?php	}
+												
+												// echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
 											}
 										 ?>
 									</select>
@@ -85,6 +95,9 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								</h6>
 								<h6>Contact No.
 									<input disabled type="text" id="cno" value="<?php echo $x->consignor->consignorNo; ?>" name="consignor-contact" class="bdr-none w100p">
+								</h6>
+								<h6>Email Id.
+									<input type="email" id="cemail" class="bdr-none w100p" value="<?php echo $x->consignor->cemail; ?>" >
 								</h6>
 								<h6>
 									<table>
@@ -116,6 +129,9 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								</h6>
 								<h6>Contact No.
 									<input disabled type="text" id="cneno" value="<?php echo $x->consignee->consigneeNo; ?>" name="consignor-contact" class="bdr-none w100p" required>
+								</h6>
+								<h6>Email Id.
+									<input type="email" id="cemail" class="bdr-none w100p" value="<?php echo $x->consignee->cneemail; ?>" >
 								</h6>
 								<h6>
 									<table>
@@ -183,7 +199,8 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												</tr>
 												<tr>
 													<td><h6>2.&nbsp; Unpacking</h6></td>
-													<td style="font-size: 10px;text-align: center;"><span class="f12">Yes</span>
+													<td style="font-size: 10px;text-align: center;">
+														<span class="f12">Yes</span>
 														<input disabled type="radio" value="Yes" <?php echo ($x->insured->unpacking == 'Yes') ?  "checked" : "" ;  ?> name="unpacking_check" class="bdr-none">
 														<span class="f12">No</span> 
 														<input disabled type="radio" value="No" <?php echo ($x->insured->unpacking == 'No') ?  "checked" : "" ;  ?> name="unpacking_check" class="bdr-none">
@@ -191,10 +208,11 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												</tr>
 												<tr>
 													<td><h6>3.&nbsp; Adjusting</h6></td>
-													<td style="font-size: 10px;text-align: center;"><span class="f12">Yes</span>
-														<input disabled type="radio" value="Yes" <?php echo ($x->insured->adjusting == 'Yes') ?  "checked" : "" ;  ?> id="adjusting_check_yes" name="adjusting_check" class="bdr-none">
+													<td style="font-size: 10px;text-align: center;">
+														<span class="f12">Yes</span>
+														<input disabled type="radio" value="Yes" <?php echo ($x->insured->adjusting == 'Yes') ?  "checked" : "" ;  ?>  name="adjusting_check" class="bdr-none">
 														<span class="f12">No</span> 
-														<input disabled type="radio" value="No" <?php echo ($x->insured->adjusting == 'No') ?  "checked" : "" ;  ?> id="adjusting_check_no" name="adjusting_check" class="bdr-none">
+														<input disabled type="radio" value="No" <?php echo ($x->insured->adjusting == 'No') ?  "checked" : "" ;  ?>  name="adjusting_check" class="bdr-none">
 													</td>
 												</tr>
 												<tr>
@@ -232,7 +250,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												<p style="margin-bottom: 0;" class="line-high">I hereby agree to the terms & Conditions printed will pay all charges as per Tariff / Agreement</p>
 												<div class="">
 													<div id="consignor-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->insured->csign;  ?>" alt="" width="100%" height="100px">
 													</div>
 												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#cModal">Consignor Signature</button>
 											</div>
@@ -241,7 +259,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 											<td colspan="2" style="position: relative;">
 												<div class="" style="position: absolute; width: 96%; text-align:center; bottom: 0;">
 													<div id="consignee-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->insured->cnesign;  ?>" alt="" width="100%" height="100px">
 													</div>
 												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#rModal">Consignee Signature</button>
 											</div>
@@ -429,7 +447,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<tr>
 									<td colspan="2" style="position:relative;">
 										<div style="position: absolute;width: 96%;text-align: center;">
-											<img src="" alt="" width="100%" height="100px">
+											<img src="upload/<?php echo $x->insured->snfsign;  ?>" alt="" width="100%" height="100px">
 											<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#snfModal">Signature
 											</button>
 											<span class="ftitle" style="padding-top: 10%!important;display: inline-block;width: 100%;" >

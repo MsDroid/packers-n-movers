@@ -35,6 +35,59 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 
 
 	<title>Consignee Copy</title>
+	<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+    /** {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #ececec;
+        overflow: hidden;
+    }*/
+    .flex-row {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+    }
+    .wrapper {
+        border: 1px solid #4b00ff;
+        border-right: 0;
+    }
+    canvas#signature-pad,canvas#signature-pad1,canvas#signature-pad2 {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+    }
+    button#clear,button#clear1,button#clear2 {
+        height: 100%;
+        background: #4b00ff;
+        border: 1px solid transparent;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    button#clear span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear1 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear2 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+  
+    </style>
 </head>
 <body>
 
@@ -58,7 +111,16 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 											$add_sql = "SELECT * from address";
 											$add_query = mysqli_query($con, $add_sql);
 											while ($arow = mysqli_fetch_assoc($add_query)) {
-												echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
+												if($arow['address'] == $rows['oaddress']){ ?>
+											
+													<option value="<?php echo $arow['address']; ?>" selected><?php echo $arow['address']; ?></option>";
+											
+											<?php	}else{ ?>
+											
+													<option value="<?php echo $arow['address']; ?>" ><?php echo $arow['address'];?></option>";
+											
+											<?php	}
+												// echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
 											}
 										 ?>
 									</select>
@@ -85,7 +147,10 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 									<input type="text" id="cadd4" value="<?php echo $x->consignor->cadd4; ?>" name="consignor-addres4" class="bdr-none w100p">
 								</h6>
 								<h6>Contact No.
-									<input type="text" id="cno" value="<?php echo $x->consignor->consignorNo; ?>" name="consignor-contact" class="bdr-none w100p">
+									<input type="text" id="cno" value="<?php echo $x->consignor->consignorNo; ?>" name="consignor-contact" class="bdr-none  w100p">
+								</h6>
+								<h6>Email Id.
+									<input type="email" id="cemail" value="<?php echo $x->consignor->cemail; ?>" class="bdr-none w100p" required>
 								</h6>
 								<h6>
 									<table>
@@ -117,6 +182,9 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								</h6>
 								<h6>Contact No.
 									<input type="text" id="cneno" value="<?php echo $x->consignee->consigneeNo; ?>" name="consignor-contact" class="bdr-none w100p" >
+								</h6>
+								<h6>Email Id.
+									<input type="email" id="cemail" class="bdr-none w100p" value="<?php echo $x->consignee->cneemail; ?>" >
 								</h6>
 								<h6>
 									<table>
@@ -192,7 +260,8 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												</tr>
 												<tr>
 													<td><h6>3.&nbsp; Adjusting</h6></td>
-													<td style="font-size: 10px;text-align: center;"><span class="f12">Yes</span>
+													<td style="font-size: 10px;text-align: center;">
+														<span class="f12">Yes</span>
 														<input type="radio" value="Yes" <?php echo ($x->insured->adjusting == 'Yes') ?  "checked" : "" ;  ?> id="adjusting_check_yes" name="adjusting_check" class="bdr-none">
 														<span class="f12">No</span> 
 														<input type="radio" value="No" <?php echo ($x->insured->adjusting == 'No') ?  "checked" : "" ;  ?> id="adjusting_check_no" name="adjusting_check" class="bdr-none">
@@ -233,18 +302,23 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												<p style="margin-bottom: 0;" class="line-high">I hereby agree to the terms & Conditions printed will pay all charges as per Tariff / Agreement</p>
 												<div class="">
 													<div id="consignor-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->insured->csign;  ?>" alt="" width="100%" height="100px">
 													</div>
-												<button type="button" data-bs-toggle="modal" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#cModal">Consignor Signature</button>
+													<input type="hidden" id="csv" name="" value="<?php echo $x->insured->csign;  ?>">
+												<button type="button" id="csign" style="font-size: 10px;padding: 3px;margin: 0 2%;">	Consignor Signature
+												</button>
 											</div>
 											</td>
 											<!-- <td colspan="2" ><p class="rsign">Receiver's Signature</p></td> -->
 											<td colspan="2" style="position: relative;">
 												<div class="" style="position: absolute; width: 96%; text-align:center; bottom: 0;">
 													<div id="consignee-sign">
-														<img src="" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->insured->cnesign;  ?>" alt="" width="100%" height="100px">
 													</div>
-												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#rModal">Consignee Signature</button>
+													<input type="hidden" id="cnesv" name="" value="<?php echo $x->insured->cnesign;  ?>">
+												<button  type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="cnesign">
+												Consignee Signature
+											</button>
 											</div>
 											</td>
 										</tr>
@@ -431,8 +505,12 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<tr>
 									<td colspan="2" style="position:relative;">
 										<div style="position: absolute;width: 96%;text-align: center;">
-											<img src="" alt="" width="100%" height="100px">
-											<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#snfModal">Signature
+											<div id="snfsignimg">
+												<img src="upload/<?php echo $x->insured->snfsign;  ?>" alt="" width="100%" height="100px">	
+											</div>
+											
+											<input type="hidden" id="snfsv" name="" value="<?php echo $x->insured->snfsign;  ?>">
+											<button  type="button" id="snfsign" style="font-size: 10px;padding: 3px;margin: 0 2%;">Signature
 											</button>
 											<span class="ftitle" style="padding-top: 10%!important;display: inline-block;width: 100%;" >
 												For SAFE & FAST
@@ -456,16 +534,260 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 		</form>
 
 	</main>
+	<!-- sign section -->
+<div>
+        <!-- sign one -->
+      <div class="flex-row" id="sign">
+         <div class="wrapper">
+             <canvas id="signature-pad" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear" type="button"><span> Clear </span></button>
+              <button id="save" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>
+        <!-- sign 2 -->
+      <div class="flex-row" id="sign1">
+         <div class="wrapper">
+             <canvas id="signature-pad1" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear1" type="button"><span> Clear </span></button>
+              <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>  
+        <!-- sign 3 -->
+      <div class="flex-row" id="sign2">
+         <div class="wrapper">
+             <canvas id="signature-pad2" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear2" type="button"><span> Clear </span></button>
+              <button id="save2" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>  
+  </div>
+	<!-- end sign section -->
 	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<!-- font awesome -->
 	<!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js" integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!-- jquery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<!-- custom js -->
 	<script src="assets/js/bills.js"></script>
 	<script src="assets/script.js"></script>
-	
+	<script>
+
+	$(document).ready(function(){
+		$('#sign').hide(); 
+    $('#sign1').hide();
+    $('#sign2').hide();
+
+// =====================================================================================
+// consignor sign
+// ======================================================================================
+    $('#csign').click(function(){
+      // console.log("partySign");
+
+      $('#sign').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#csv').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#cimg').hide();
+          $('#consignor-sign').html(img_field);
+          $('#sign').hide();
+          
+          }
+        });
+      }
+    });
+
+  // ====================================================================================
+  // consignee signature
+  // ====================================================================================
+
+	$('#cnesign').click(function(){
+      // console.log("partySign");
+
+      $('#sign1').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad1");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear1").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save1").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#cnesv').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#cneimg').hide();
+          $('#consignee-sign').html(img_field);
+          $('#sign1').hide();
+          
+          }
+        });
+      }
+    });
+
+// ==================================================================================
+
+// ====================================================================================
+  // snf signature
+  // ====================================================================================
+
+	$('#snfsign').click(function(){
+      // console.log("partySign");
+
+      $('#sign2').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad2");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear2").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save2").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#snfsv').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#cneimg').hide();
+          $('#snfsignimg').html(img_field);
+          $('#sign2').hide();
+          
+          }
+        });
+      }
+    });
+
+// ==================================================================================
+
+
+
+	})
+
+       
+  // =======================================================================
+		function getIns(){
+			let insp = document.getElementById('insp').value;
+			let x  = parseFloat(insp);
+			let insv = document.getElementById('insv').value;
+			let y = parseFloat(insv);
+
+			let famt = (x * y)/100;
+			// console.log(document.getElementById('ins').value);
+			document.getElementById('ins').value = parseFloat(famt.toFixed(2));
+			// console.log(document.getElementById('ins').value);
+			getValue('ins');
+
+		}
+
+		
+	</script>
+
 </body>
 </html>
