@@ -2,7 +2,12 @@
 include 'config.php';
 if (isset($_GET['id']) & $_GET['id'] != '') {
   $id = $_GET['id'];
-
+  $rsql = "SELECT * from receipts where id = '{$id}'";
+  $rquery = mysqli_query($con, $rsql);
+  $rows = mysqli_fetch_assoc($rquery);
+  // echo "<pre>";
+  // print_r ($rows);
+  // echo "</pre>";
   }
 
 
@@ -42,13 +47,22 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 			<div class="row">
 				<div class="col-sm-12 add-wrapper">
 							<center>
-								<select class="form-control address" id="site_address" style="font-size: 16px;overflow: visible;width: 100%;text-align: center;border: none;margin: 0;padding: 0;white-space: normal;">
+								<select class="form-control address" disabled id="site_address" style="font-size: 16px;overflow: visible;width: 100%;text-align: center;border: none;margin: 0;padding: 0;white-space: normal;">
 										<option>Select Address</option>
 										<?php
 											$add_sql = "SELECT * from address";
 											$add_query = mysqli_query($con, $add_sql);
 											while ($arow = mysqli_fetch_assoc($add_query)) {
-												echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
+												if($arow['address'] == $rows['sadd']){ ?>
+													
+													<option value="<?php echo $arow['address']; ?>" selected ><?php echo $arow['address']; ?></option>";
+											
+											<?php	}else{ ?>
+											
+													<option value="<?php echo $arow['address']; ?>" ><?php echo $arow['address'];?></option>";
+											
+											<?php	}
+												// echo "<option value=".$arow['address']."><p>".$arow['address']."</p></option>";		
 											}
 										 ?>
 									</select>
@@ -68,49 +82,53 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 					</div>
 					<div class="col-md-2">
 						<label for="date" class="form-label">Date</label>
-						<input disabled required type="date" class="form-control" id="date">
+						<input disabled  type="date" class="form-control" id="date">
 					</div>
 					<div class="col-6">
 						<label for="rf" class="form-label">Received with thanks from</label>
-						<input disabled required type="text" class="form-control" id="rf" placeholder="">
+						<input disabled  type="text" class="form-control" id="rf" placeholder="">
 					</div>
 					<div class="col-6">
 						<label for="sor" class="form-label">a sum of rupees</label>
-						<input disabled required type="text" class="form-control" id="sor" placeholder="">
+						<input disabled  type="text" class="form-control" id="sor" placeholder="">
 					</div>
-					<div class="col-md-8">
-						<label for="bc" class="form-label">by Cash / Cheque /Draft No.</label>
-						<input disabled required type="text" class="form-control" id="bc">
+					<div class="col-md-4">
+							<label for="bc" class="form-label">By Cash / Cheque /Draft No.</label>
+							<input  disabled type="text" class="form-control" id="bc">
+					</div>
+					<div class="col-md-4">
+							<label for="email" class="form-label">Email</label>
+							<input disabled type="email" class="form-control" id="email">
 					</div>
 					<div class="col-md-4">
 						<label for="rdate" class="form-label">Date</label>
-						<input disabled required type="date" class="form-control" id="rdate">
+						<input disabled  type="date" class="form-control" id="rdate">
 					</div>
 					<div class="col-md-4">
 						<label for="ob" class="form-label">on Bank</label>
-						<input disabled required type="text" class="form-control" id="ob">
+						<input disabled  type="text" class="form-control" id="ob">
 					</div>
 					<div class="col-4">
 						<label for="ao" class="form-label">being payment on account of</label>
-						<input disabled required type="text" class="form-control" id="ao">
+						<input disabled  type="text" class="form-control" id="ao">
 					</div>
 					<div class="col-4">
 						<label for="ao" class="form-label">Mobile no.</label>
-						<input disabled required type="number" class="form-control" id="mn">
+						<input disabled  type="number" class="form-control" id="mn">
 					</div>
 					<div class="col-12">
 						<label for="inputZip" class="form-label snf">SAFE N FAST PACKERS & MOVERS <span style="font-size: 10px;">(Regd.)</span></label>
-						<!-- <input disabled required type="text" class="form-control" id="inputZip"> -->
+						<!-- <input disabled  type="text" class="form-control" id="inputZip"> -->
 					</div>
 					<div class="col-md-2">
 						<label for="amt" class="form-label"><!-- Rs. --></label>
-						<input disabled required type="number" class="form-control" id="amt" placeholder="Rs." pattern="[0-9]">
+						<input disabled  type="number" class="form-control" id="amt" placeholder="Rs." pattern="[0-9]">
 					</div>
 					<div class="col-md-8">
 						
 					</div>
 					<div class="col-md-2">
-						<div>
+						<div id="snfsign">
 							<img src="" alt="" width="200" height="60">
 						</div>
 						<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"> Authorised Signatory</button>
@@ -125,29 +143,11 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 					</div>
 					<input disabled type="hidden" id="id" value="<?php echo $id; ?>">
 				<!-- </form> -->
+
 			</div>
 		</div>
 	</header>
-<!-- =========================================================== -->
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Office Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ======================================================================================== -->
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
@@ -173,9 +173,10 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 				data: {'id':<?php echo $id; ?>},
 				success:function(r){
 					if (true) {
-						console.log(r);
+						// console.log(r);
 						var x = JSON.parse(r);
-						let slno = $('#slno').val();
+						// console.log(x);
+						 	// $('#site_address').val(x.sadd);
 							$('#slno').val(x.slno);
 							$('#date').val(x.mrdate);
 							$('#rf').val(x.rf);
@@ -184,7 +185,11 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 							$('#rdate').val(x.rdate);
 							$('#ob').val(x.ob);
 							$('#ao').val(x.ao);
-							 $('#amt').val(x.amt);
+							$('#amt').val(x.amt);
+							$('#email').val(x.email);
+							$('#mn').val(x.mobileno);
+							let img_field = "<img src=upload/"+x.osign+" alt='' width='200' height='100'>";
+          		$('#snfsign').html(img_field);
 						// window.location.href='money_receipt.php';
 					}
 				}

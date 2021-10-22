@@ -10,9 +10,12 @@ $rdate = mysqli_real_escape_string($con, $_POST['rdate']);
 $ob = mysqli_real_escape_string($con, $_POST['ob']);
 $ao = mysqli_real_escape_string($con, $_POST['ao']);
 $amt = mysqli_real_escape_string($con, $_POST['amt']);
-$mn = mysqli_real_escape_string($con, $_POST['mn']);
+$mn = $_POST['mn'];
+$sadd = $_POST['sadd'];
+$osign = $_POST['osign'];
+$email = $_POST['email'];
 
-$sql = "INSERT into receipts(slno,mrdate,rf,sor,bc,rdate,ob,ao,amt,mn) VALUES('{$slno}','{$date}','{$rf}','{$sor}','{$bc}','{$rdate}','{$ob}','{$ao}','{$amt}','{$mn}')";
+echo $sql = "INSERT into receipts(slno,mrdate,rf,sor,bc,rdate,ob,ao,amt,mobileno,email,sadd,osign) VALUES('{$slno}','{$date}','{$rf}','{$sor}','{$bc}','{$rdate}','{$ob}','{$ao}','{$amt}','{$mn}','{$email}','{$sadd}','{$osign}')";
 $query = mysqli_query($con, $sql);
 
 if($query){
