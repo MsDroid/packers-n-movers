@@ -184,7 +184,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 									<input type="text" id="cneno" value="<?php echo $x->consignee->consigneeNo; ?>" name="consignor-contact" class="bdr-none w100p" >
 								</h6>
 								<h6>Email Id.
-									<input type="email" id="cemail" class="bdr-none w100p" value="<?php echo $x->consignee->cneemail; ?>" >
+									<input type="email" id="cneemail" class="bdr-none w100p" value="<?php echo $x->consignee->cneemail; ?>" >
 								</h6>
 								<h6>
 									<table>
@@ -302,7 +302,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												<p style="margin-bottom: 0;" class="line-high">I hereby agree to the terms & Conditions printed will pay all charges as per Tariff / Agreement</p>
 												<div class="">
 													<div id="consignor-sign">
-														<img src="upload/<?php echo $x->insured->csign;  ?>" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->sign->csign;  ?>" alt="" width="100%" height="100px">
 													</div>
 													<input type="hidden" id="csv" name="" value="<?php echo $x->insured->csign;  ?>">
 												<button type="button" id="csign" style="font-size: 10px;padding: 3px;margin: 0 2%;">	Consignor Signature
@@ -313,7 +313,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 											<td colspan="2" style="position: relative;">
 												<div class="" style="position: absolute; width: 96%; text-align:center; bottom: 0;">
 													<div id="consignee-sign">
-														<img src="upload/<?php echo $x->insured->cnesign;  ?>" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->sign->cnesign;  ?>" alt="" width="100%" height="100px">
 													</div>
 													<input type="hidden" id="cnesv" name="" value="<?php echo $x->insured->cnesign;  ?>">
 												<button  type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" id="cnesign">
@@ -506,7 +506,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 									<td colspan="2" style="position:relative;">
 										<div style="position: absolute;width: 96%;text-align: center;">
 											<div id="snfsignimg">
-												<img src="upload/<?php echo $x->insured->snfsign;  ?>" alt="" width="100%" height="100px">	
+												<img src="upload/<?php echo $x->sign->snfsign;  ?>" alt="" width="100%" height="100px">	
 											</div>
 											
 											<input type="hidden" id="snfsv" name="" value="<?php echo $x->insured->snfsign;  ?>">

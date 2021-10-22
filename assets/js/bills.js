@@ -5,7 +5,7 @@ function generateBill(){
 	// var billDetails = [];
 
 	var oaddress = document.getElementById('site_address').value;
-alert(oaddress);
+// alert(oaddress);
 console.log(oaddress);
 	var cadd1 = document.getElementById('cadd1').value;
 	var cadd2 = document.getElementById('cadd2').value;
@@ -141,6 +141,11 @@ console.log(oaddress);
 	var cnesign = document.getElementById('cnesv').value;
 	var snfsign = document.getElementById('snfsv').value;
 
+const sign = {
+	'csign' : csign,
+	'cnesign' : cnesign,
+	'snfsign' : snfsign
+}
 	
 	const insuredobj ={
 		'pkg'	: pkg,
@@ -155,9 +160,6 @@ console.log(oaddress);
 		'ownerno' : ownerno,
 		'pc' : pc,
 		'dp' : dp,
-		'csign' : csign,
-		'cnesign' : cnesign,
-		'snfsign' : snfsign,
 		'unloading' : unloadingselect,
 		'unpacking' : unpackingselect,
 		'adjusting' : adjustingselect 
@@ -226,7 +228,8 @@ let c = {
 	'consignor' : consignorobj,
 	'consignee' : consigneeobj,
 	'insured' : insuredobj,
-	'chargetbl' : chargeTblString
+	'chargetbl' : chargeTblString,
+	'sign' : sign
 }
 
 let data = JSON.stringify(c);
@@ -237,7 +240,7 @@ let officeAddress = document.getElementById('site_address').value;
 
 let dataString = 'officeAddress=' + officeAddress + '&name=' + name + '&inspt=' + insuredPersonType + '&consign_no=' + consign_no + '&fromadd=' + fromAdd + '&toadd=' + toAdd + '&data=' + data;
 
-// if(insuredPersonType != '' && name !='' && fromAdd !='' && toAdd !='' && created_date!=''){
+if(insuredPersonType != '' && name !='' && fromAdd !='' && toAdd !='' && created_date!=''){
 
 $.ajax({
 	url : "api/createBill.php",
@@ -246,16 +249,16 @@ $.ajax({
 	success:function(r){
 		if(true){
 			alert("Successfully Created!");
-			// window.location.href='bill-generationlist.php';
+			window.location.href='bill-generationlist.php';
 		}else{
 			alert("Somthing Wrong, Please Try Again!");
 		}	
 	}
 });
 
-// }else{
-// 	alert("Please Enter Insured Type, Name, Ship from, Ship to and Date!");
-// }
+}else{
+	alert("Please Enter Insured Type, Name, Ship from, Ship to and Date!");
+}
 
 
 }
@@ -264,7 +267,8 @@ $.ajax({
 // update
 // ==============================================================================
 function updateBill(){
-	var billDetails = [];
+	// var billDetails = [];
+	var oaddress = document.getElementById('site_address').value;
 
 	var cadd1 = document.getElementById('cadd1').value;
 	var cadd2 = document.getElementById('cadd2').value;
@@ -277,6 +281,8 @@ function updateBill(){
 	var cp3 = document.getElementById('cp3').value;
 	var cp4 = document.getElementById('cp4').value;
 	var cp5 = document.getElementById('cp5').value;
+
+	var cemail = document.getElementById('cemail').value;
 	
 	// var consignorPin = cp0+''+cp1+''+cp2+''+cp3+''+cp4+''+cp5;
 
@@ -291,6 +297,7 @@ function updateBill(){
 		'cp3' : cp3,
 		'cp4' : cp4,
 		'cp5' : cp5,
+		'cemail' : cemail,
 		'consignorNo'  : cno
 		}
 	
@@ -311,6 +318,8 @@ function updateBill(){
 	var cnep3 = document.getElementById('cnep3').value;
 	var cnep4 = document.getElementById('cnep4').value;
 	var cnep5 = document.getElementById('cnep5').value;
+
+	var cneemail = document.getElementById('cneemail').value;
 	
 	// var consigneePin = cnep0+''+cnep1+''+cnep2+''+cnep3+''+cnep4+''+cnep5;
 
@@ -325,6 +334,7 @@ function updateBill(){
 		'cnep3' : cnep3,
 		'cnep4' : cnep4,
 		'cnep5' : cnep5,
+		'cneemail' : cneemail,
 		'consigneeNo'  : cneno
 		}
 
@@ -391,8 +401,15 @@ function updateBill(){
     var ownerno = document.getElementById('owner_no').value;
 	var pc = document.getElementById('party_collection').value;
 	var dp = document.getElementById('driver_paid').value;
+	var csign = document.getElementById('csv').value;
+	var cnesign = document.getElementById('cnesv').value;
+	var snfsign = document.getElementById('snfsv').value;
 
-	
+	const sign = {
+	'csign' : csign,
+	'cnesign' : cnesign,
+	'snfsign' : snfsign
+}
 	const insuredobj ={
 		'pkg'	: pkg,
 		'particular' : particular,
@@ -442,7 +459,9 @@ var sgstvalue = document.getElementById('sgst').value;
 var entrytax = document.getElementById('entry-tax').value;
 var grandtotal = document.getElementById('grand-total').value;
 var amtinword = document.getElementById('amtinword').value;
-let chargeTblArr = [];
+var insp = document.getElementById('insp').value;
+var insv = document.getElementById('insv').value;
+// let chargeTblArr = [];
 chargeTblString = {
 	'created_date':created_date,
 	'dktCharge' : dktCharge,
@@ -462,6 +481,8 @@ chargeTblString = {
 	'sgstvalue' : sgstvalue,
 	'entrytax' : entrytax,
 	'grandtotal' : grandtotal,
+	'insp' : insp,
+	'insv' : insv,
 	'amtinword' : amtinword
 }
 
@@ -469,12 +490,13 @@ let c = {
 	'consignor' : consignorobj,
 	'consignee' : consigneeobj,
 	'insured' : insuredobj,
-	'chargetbl' : chargeTblString
+	'chargetbl' : chargeTblString,
+	'sign' : sign
 }
 
 let data = JSON.stringify(c);
 const bid = document.getElementById('bid').value;
-let dataString = 'name=' + name + '&inspt=' + insuredPersonType + '&consign_no=' + consign_no + '&fromadd=' + fromAdd + '&toadd=' + toAdd + '&data=' + data + '&bid=' + bid;
+let dataString = 'officeAddress=' + oaddress + '&name=' + name + '&inspt=' + insuredPersonType + '&consign_no=' + consign_no + '&fromadd=' + fromAdd + '&toadd=' + toAdd + '&data=' + data + '&bid=' + bid;
 
 if(insuredPersonType != '' && name !='' && fromAdd !='' && toAdd !='' && created_date!=''){
 

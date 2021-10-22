@@ -13,10 +13,10 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
   $query = mysqli_query($con,$sql);
   $rows = mysqli_fetch_assoc($query);
   $x = json_decode($rows['data']);
-  echo "<pre>";
-  print_r($rows);
-  print_r($x);
-  echo "</pre>";
+  // echo "<pre>";
+  // print_r($rows);
+  // print_r($x);
+  // echo "</pre>";
   }
 
 ?>
@@ -250,7 +250,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												<p style="margin-bottom: 0;" class="line-high">I hereby agree to the terms & Conditions printed will pay all charges as per Tariff / Agreement</p>
 												<div class="">
 													<div id="consignor-sign">
-														<img src="upload/<?php echo $x->insured->csign;  ?>" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->sign->csign;  ?>" alt="" width="100%" height="100px">
 													</div>
 												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#cModal">Consignor Signature</button>
 											</div>
@@ -259,7 +259,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 											<td colspan="2" style="position: relative;">
 												<div class="" style="position: absolute; width: 96%; text-align:center; bottom: 0;">
 													<div id="consignee-sign">
-														<img src="upload/<?php echo $x->insured->cnesign;  ?>" alt="" width="100%" height="100px">
+														<img src="upload/<?php echo $x->sign->cnesign;  ?>" alt="" width="100%" height="100px">
 													</div>
 												<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#rModal">Consignee Signature</button>
 											</div>
@@ -447,7 +447,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<tr>
 									<td colspan="2" style="position:relative;">
 										<div style="position: absolute;width: 96%;text-align: center;">
-											<img src="upload/<?php echo $x->insured->snfsign;  ?>" alt="" width="100%" height="100px">
+											<img src="upload/<?php echo $x->sign->snfsign;  ?>" alt="" width="100%" height="100px">
 											<button data-bs-toggle="modal" type="button" style="font-size: 10px;padding: 3px;margin: 0 2%;" data-bs-target="#snfModal">Signature
 											</button>
 											<span class="ftitle" style="padding-top: 10%!important;display: inline-block;width: 100%;" >

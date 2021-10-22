@@ -1,6 +1,7 @@
 <?php 
 include '../config.php';
 
+$oAddress = $_POST['officeAddress'];
 $name = $_POST['name'];
 $consign_no = $_POST['consign_no'];
 $fromadd = $_POST['fromadd'];
@@ -9,7 +10,8 @@ $inspt = $_POST['inspt'];
 $data = $_POST['data'];
 $bid = $_POST['bid'];
 
-$sql = "UPDATE bills set 
+$sql = "UPDATE bills set
+	oaddress = '$oAddress', 
 	name = '$name',
 	consign_no = '$consign_no',
 	fromadd = '$fromadd',
