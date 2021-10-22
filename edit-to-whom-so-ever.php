@@ -27,6 +27,56 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 
     <link href="assets/style.css" rel="stylesheet">
     <title>To Whom So Ever</title>
+    <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+    /** {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #ececec;
+        overflow: hidden;
+    }*/
+    .flex-row {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+    }
+    .wrapper {
+        border: 1px solid #4b00ff;
+        border-right: 0;
+    }
+    canvas#signature-pad,canvas#signature-pad1 {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+    }
+    button#clear,button#clear1 {
+        height: 100%;
+        background: #4b00ff;
+        border: 1px solid transparent;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    button#clear span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear1 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    
+  
+    </style>
   </head>
 
 
@@ -58,14 +108,23 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
           <p class="para-1">List of old and used household effects of Mr./Mrs. : &nbsp; 
             <input type="text" name="name" value="<?php echo $erow['name']; ?>" id="name" class="bdr-none" placeholder="Name"> 
             being packed by
-            <span class="c-name">SAFE & FAST <span><small>(Regd.no)</small></span></span></br> <select class="bdr-none" style="width: auto;" name="from-add" id="from-add">
+            <span class="c-name">SAFE & FAST <span><small>(Regd.no)</small></span></span></br> 
+            <select class="bdr-none" style="width: auto;" name="from-add" id="site_address">
                       <option class="">Select from</option>
                       <?php 
                       $city_sql= "SELECT * from address ORDER BY address ASC";
                       $city_query = mysqli_query($con,$city_sql);
-                      while ($cities = mysqli_fetch_assoc($city_query)){
-                        echo "<option value=".$cities['address'].">".$cities['address']."</option>";
-                      }
+                      while ($cities = mysqli_fetch_assoc($city_query)){ 
+                       if($trow['address'] == $cities['oaddress']){ ?>
+                      
+                          <option value="<?php echo $cities['address']; ?>" selected><?php echo $cities['address']; ?></option>";
+                      
+                      <?php }else{ ?>
+                      
+                          <option value="<?php echo $cities['address']; ?>" ><?php echo $cities['address'];?></option>";
+                      
+                     
+                      <?php  }  }
                       ?>  </select>
             Handled over to for transportation 
             from <select class="bdr-none w30p" name="from-add" id="from-add">
@@ -91,11 +150,12 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
             <!-- <input type="text" placeholder="Addredd - 2" class="adr" id="to-add" required>  -->
             vide their 
             Consignment Note No 
-            <input type="text" id="note-no" value="<?php echo $erow['cnoteno']; ?>" class="bdr-none" placeholder="Consignment No.">
+            <input type="text" id="note-no" value="" class="bdr-none" placeholder="Consignment No.">
             dated 
-            <input type="date" value="<?php echo $erow['date']; ?>" id="on-date" class="bdr-none" required>
+            <input type="date" value="" id="on-date" class="bdr-none" required>
             Contact No. 
-            <input type="number" value="<?php echo $erow['contact']; ?>" id="contact" class="bdr-none" required>
+            <input type="number" value="" id="contact" class="bdr-none" required>
+            Email <input type="email" id="email" class="bdr-none" required style="width: 20%;">
           </p>
 
             <p class="para-2">The goods and personal belonging are not most for sale and are having no commercial value, therefore
@@ -434,22 +494,32 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
         <div class="row">
           <div class="col-3 pt40">
             <div  class="left-side" style="text-align: center;">
-              <div>
+              <div id="signChild">
                 <img src="" alt="" width="200" height="100">
               </div>
-              <span><button data-bs-toggle="modal" type="button" data-bs-target="#partyModal">Party Signature</button></span>  
+              <input type="hidden" name="" id="partySignImg">
+              <span>
+                <button  type="button"  id="partySign">Party Signature</button>
+              </span>  
             </div>  
           </div>
           <div class="col-6">
             <p class="f-title">
-              <select class="bdr-none" style="width: 100%;white-space: break-spaces;height: 50px;word-spacing: 1px;font-weight: 900;text-align: center;vertical-align: bottom;background-color: firebrick;color: white;" name="from-add" id="site_address">
+              <select class="bdr-none" style="width: 100%;white-space: break-spaces;height: 50px;word-spacing: 1px;font-weight: 900;text-align: center;vertical-align: bottom;background-color: firebrick;color: white;" name="from-add" id="fsite_address">
                       <option class="">Select Address</option>
                       <?php 
                       $city_sql= "SELECT * from address ORDER BY address ASC";
                       $city_query = mysqli_query($con,$city_sql);
-                      while ($cities = mysqli_fetch_assoc($city_query)){
-                        echo "<option value=".$cities['address'].">".$cities['address']."</option>";
-                      }
+                       while ($cities = mysqli_fetch_assoc($city_query)){ 
+                       if($trow['address'] == $cities['oaddress']){ ?>
+                      
+                          <option value="<?php echo $cities['address']; ?>" selected><?php echo $cities['address']; ?></option>";
+                      
+                      <?php }else{ ?>
+                      
+                          <option value="<?php echo $cities['address']; ?>" ><?php echo $cities['address'];?></option>";
+                      
+                      <?php } }
                       ?>  </select>
             </p>
             <!-- <p class="f-desc">Near Nigam Park, Ranchi</p> -->
@@ -459,11 +529,13 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
           </div>
           <div class="col-3 pt40">
             <div class="right-side" style="text-align: center;">
-              <div>
+              <div id="snfsign">
                 <img src="" alt="" width="200" height="100">
               </div>
+              <input type="hidden" id="officeSignImg" value="">
               <span >
-                <button data-bs-toggle="modal" type="button" data-bs-target="#officeModal">SafeNFast Signature
+                <button  type="button" id="officeSign" >
+                  SafeNFast Signature
                 </button>
               </span>  
             </div>   
@@ -485,57 +557,29 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
       </div>
     </form>
     </footer>
-    <!-- ======================================================================================== -->
-    <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
-
-<!-- party sign Modal -->
-<div class="modal fade" id="partyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Party Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ <div>
+        <!-- sign one -->
+      <div class="flex-row" id="sign">
+         <div class="wrapper">
+             <canvas id="signature-pad" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear" type="button"><span> Clear </span></button>
+              <button id="save" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
       </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
+        <!-- sign 2 -->
+      <div class="flex-row" id="sign1">
+         <div class="wrapper">
+             <canvas id="signature-pad1" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear1" type="button"><span> Clear </span></button>
+              <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+      </div>  
+       
   </div>
-</div>
-
-<!-- ========================================================================= -->
-
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#officeModal">
-  Launch demo modal
-</button> -->
-
-<!-- Modal -->
-<div class="modal fade" id="officeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Office Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- =============================================================================== -->
 
 
     <!-- jquery -->
@@ -543,61 +587,126 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
     <!-- custom js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="assets/script.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js" integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script type="text/javascript">
-      //submit function
-      // function submitMyForm() {
+      $(document).ready(function(){
+    $('#sign').hide(); 
+    $('#sign1').hide(); 
 
-      //   // get all value 
-      //   var name = document.getElementById("name").value;
-      //   var fromAdd = document.getElementById("from-add").value;
-      //   var toAdd = document.getElementById("to-add").value;
-      //   var cNoteNo = document.getElementById("note-no").value;
-      //   var date = document.getElementById("on-date").value;
+    let pSign = $('#partySign').click(function(){
+      // console.log("partySign");
+
+      $('#sign').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
         
+        sendPSignToServer(base64Canvas);
+       })
 
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#partySignImg').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#signChild').html(img_field);
+          $('#sign').hide();
+          
+          }
+        });
+      }
+    });
+
+    // office sign
+    let oSign = $('#officeSign').click(function(){
+      // console.log("officeSign");
+
+      $('#sign1').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad1");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear1").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save1").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
         
-      //   if (name != '' & fromAdd != '' & toAdd != '' & cNoteNo != '' & date != '') {
-      //     let arr = [];
-
-
-      //   for (var i = 1 ; i <= 48; i++) {
-      //     arr.push(getDataFromRow(i));
-      //   }
-
-      //   // data = arr.toString();
-      //   let myjsondata = JSON.stringify(arr);
-
-      //   // console.log(myjsondata);
-      //   var dataString = 'name=' + name + '&fromAdd=' + fromAdd + '&toAdd=' + toAdd + '&cNoteNo=' + cNoteNo + '&date=' + date + '&data=' + myjsondata;
-        
-
-      //   // console.log(dataString);
-
-      //   $.ajax({
-      //     url : "api/to-whom.php",
-      //     method : "POST",
-      //     data : dataString,
-      //     success:function(r){
-      //       if(true){
-      //         alert("Successfully Created!");
-      //       window.location.href='to-whom-so-ever.php';  
-      //       }else{
-      //       alert("Somthing Wrong Please Try Again!!");
-      //       }
-            
-      //     }
-      //   })
-
-      //   }else{
-      //     alert("Please fill Name, Address, Consignment No and Date!");
-      //   }
-        
-
-      // }
+        sendOSignToServer(base64Canvas);
+       })
+       function sendOSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          console.log(r);
+          let y = jQuery.parseJSON(r);
+          
+          $('#officeSignImg').val(y.img_name);
+          let img_field = "<img src=upload/"+y.img_name+" alt='' width='200' height='100'>";
+          $('#snfsign').html(img_field);
+          $('#sign1').hide();
+          
+          }
+        });
+      }
+    });
 
 
 
+  })
+//signature end
+// ===================================================================================
 // update functions
       function updateMyForm() {
 
@@ -607,9 +716,16 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
         var toAdd = document.getElementById("to-add").value;
         var cNoteNo = document.getElementById("note-no").value;
         var date = document.getElementById("on-date").value;
+        var contact = document.getElementById("contact").value;
+        var email = document.getElementById("email").value;
+        var oaddress = document.getElementById("site_address").value;
+        var faddress = document.getElementById("fsite_address").value;
+         var psign = document.getElementById("partySignImg").value;
+        var osign = document.getElementById("officeSignImg").value;        
+        
         var id = document.getElementById("id").value;
         
-        if (name != '' & fromAdd != '' & toAdd != '' & cNoteNo != '' & date != '') {
+        if (oaddress != '' && faddress != '' && name != '' & fromAdd != '' & toAdd != '' & cNoteNo != '' & date != '') {
               let arr = [];
 
               for (var i = 1 ; i <= 48; i++) {
@@ -620,14 +736,14 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
             let myjsondata = JSON.stringify(arr);
 
             // console.log(myjsondata);
-            var dataString = 'name=' + name + '&fromAdd=' + fromAdd + '&toAdd=' + toAdd + '&cNoteNo=' + cNoteNo + '&date=' + date + '&id=' + id  + '&data=' + myjsondata;
+            var dataString = 'email='+ email + '&name=' + name + '&fromAdd=' + fromAdd + '&toAdd=' + toAdd + '&cNoteNo=' + cNoteNo + '&date=' + date + '&id=' + id  + '&data=' + myjsondata + '&contact=' + contact + '&oaddress=' + oaddress + '&faddress=' + faddress + '&psign=' + psign + '&osign=' + osign;
 
             $.ajax({
               url : "api/update-to-whom.php",
               method : "POST",
               data : dataString,
               success:function(r){
-                console.log(r);
+                // console.log(r);
                 if(true){
                   alert("Successfully updated!");
                 window.location.href='to-whom-so-everlist.php';  
@@ -650,7 +766,7 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
         let qty = $("#q"+index).val();
         let fromvalue = $("#v"+index).val();
 
-        // console.log(name, qty, fromvalue);
+        console.log(name, qty, fromvalue);
 
         return {
           "name":name,
@@ -673,8 +789,19 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
                 
                 let x = jQuery.parseJSON(r);
                 
-                console.log(x.data);
-                $("#name").val(x.name);
+                // console.log(x.data);
+               $("#name").val(x.name);
+                $("#saddress").val(x.oaddress);
+                $("#oaddress").val(x.faddress);
+                $("#email").val(x.email);
+                $("#contact").val(x.contact);
+
+                 let psign = "<img src=upload/"+x.psign+" alt='' width='200' height='100'>";
+                $("#signChild").html(psign);
+                
+                let osign = "<img src=upload/"+x.osign+" alt='' width='200' height='100'>";
+                $("#snfsign").html(osign);
+                
                 $("#note-no").val(x.cnoteno);
                 $("#on-date").val(x.date);
                 $("#from-add").val(x.fromaddress);
