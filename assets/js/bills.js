@@ -6,7 +6,7 @@ function generateBill(){
 
 	var oaddress = document.getElementById('site_address').value;
 // alert(oaddress);
-console.log(oaddress);
+// console.log(oaddress);
 	var cadd1 = document.getElementById('cadd1').value;
 	var cadd2 = document.getElementById('cadd2').value;
 	var cadd3 = document.getElementById('cadd3').value;
@@ -154,15 +154,15 @@ const sign = {
 		'policyno' : policy,
 		'invoice' : invoice,
 		'date' : date,
+		'unloading' : unloadingselect,
+		'unpacking' : unpackingselect,
+		'adjusting' : adjustingselect,
 		'permitno' : permit,
 		'lorryno' : lorry,
 		'driverno' : driver,
 		'ownerno' : ownerno,
 		'pc' : pc,
-		'dp' : dp,
-		'unloading' : unloadingselect,
-		'unpacking' : unpackingselect,
-		'adjusting' : adjustingselect 
+		'dp' : dp
 	}
 
 	// billDetails.push(insuredobj);
@@ -416,16 +416,16 @@ function updateBill(){
 		'floor' : floor,
 		'policyno' : policy,
 		'invoice' : invoice,
+		'unloading' : unloadingselect,
+		'unpacking' : unpackingselect,
+		'adjusting' : adjustingselect, 
 		'date' : date,
 		'permitno' : permit,
 		'lorryno' : lorry,
 		'driverno' : driver,
 		'ownerno' : ownerno,
 		'pc' : pc,
-		'dp' : dp,
-		'unloading' : unloadingselect,
-		'unpacking' : unpackingselect,
-		'adjusting' : adjustingselect 
+		'dp' : dp
 	}
 
 	// billDetails.push(insuredobj);

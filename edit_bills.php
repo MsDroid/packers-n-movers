@@ -448,8 +448,8 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<tr>
 									<td style="display: flex;justify-content: space-between;">
 										<h6>Ins./FOV Charges</h6>
-										<input type="text" class="bdr-none" value="0" style="width: 10%; text-align: right;" id="insp">(%)
-										<input type="text" id="insv" class="bdr-none" value="0" onchange="getIns();" style="width: 20%; text-align:right;">
+										<input type="text" class="bdr-none" value="<?php echo $x->chargetbl->insp; ?>" style="width: 10%; text-align: right;" id="insp">(%)
+										<input type="text" id="insv" class="bdr-none" value="<?php echo $x->chargetbl->insv; ?>" onchange="getIns();" style="width: 20%; text-align:right;">
 									</td>
 									<td>
 										<input type="number" id="ins" value="<?php echo $x->chargetbl->insCharge; ?>" name="ser_chr9" class="bdr-none w100p text-right" >

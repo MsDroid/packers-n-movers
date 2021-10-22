@@ -187,7 +187,8 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 												<table class="w100p">
 												<tr>
 													<td><h6>1.&nbsp; Unloading</h6></td>
-													<td style="font-size: 10px;text-align: center;"><span class="f12">Yes</span> 
+													<td style="font-size: 10px;text-align: center;">
+														<span class="f12">Yes</span> 
 														<input disabled type="radio" value="Yes" <?php echo ($x->insured->unloading == 'Yes') ?  "checked" : "" ;  ?> name="unloading_check" class="bdr-none">
 														<span class="f12">No</span> 
 														<input disabled type="radio" name="unloading_check" value="Unloading No" <?php echo ($x->insured->unloading == 'No') ?  "checked" : "" ;  ?> class="bdr-none">
@@ -391,8 +392,8 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<tr>
 									<td style="display: flex;justify-content: space-between;">
 										<h6>Ins./FOV Charges</h6>
-										<input disabled type="text" class="bdr-none" value="0" style="width: 10%; text-align: right;" id="insp">(%)
-										<input disabled type="text" id="insv" class="bdr-none" value="0" onchange="getIns();" style="width: 20%; text-align:right;">
+										<input disabled type="text" class="bdr-none" value="<?php echo $x->chargetbl->insp; ?>" style="width: 10%; text-align: right;" id="insp">(%)
+										<input disabled type="text" id="insv" class="bdr-none" value="<?php echo $x->chargetbl->insv; ?>" onchange="getIns();" style="width: 20%; text-align:right;">
 									</td>
 									<td>
 										<input disabled type="number" id="ins" value="<?php echo $x->chargetbl->insCharge; ?>" name="ser_chr9" class="bdr-none w100p text-right" >
