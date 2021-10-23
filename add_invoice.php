@@ -1,4 +1,5 @@
 <?php
+include 'config.php';
 $slno = 'SN-'.time();
 // echo $slno;
 ?>
@@ -9,6 +10,63 @@ $slno = 'SN-'.time();
 	<title>Invoice</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/invoice.css">
+	<style>
+	input[type=date]:required:invalid::-webkit-datetime-edit {
+    color: transparent;
+}
+input[type=date]:focus::-webkit-datetime-edit {
+    color: black !important;
+}
+</style>
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+    /** {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #ececec;
+        overflow: hidden;
+    }*/
+    .flex-row {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+    }
+    .wrapper {
+        border: 1px solid #4b00ff;
+        border-right: 0;
+    }
+    canvas#signature-pad,canvas#signature-pad1 {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+    }
+    button#clear,button#clear1 {
+        height: 100%;
+        background: #4b00ff;
+        border: 1px solid transparent;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    button#clear span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear1 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+  
+    </style>
 </head>
 <body>
 	<header>
@@ -19,14 +77,26 @@ $slno = 'SN-'.time();
 				</div>
 				<div class="col-sm-5">
 					<div class="dflex">
-						<p>Regd. No. 98877</p>
+						<p>Regd. No. </p>
 						<p>Invoice</p>
 					</div>
 					<div>
 						<h1>SAFE-N-FAST PACKERS & MOVERS</h1>
 					</div>
 					<div>
-						<p>Anandpuri Chowk,Vidyanagar Road,Harmu, Ranchi,Jharkhand</p>
+						<p>
+							<select required class="form-control address" id="site_address" style="font-size: 10px;overflow: visible;width: 107%;text-align: center;border: none;margin: 0;padding: 0;">
+                    <option>Select Address</option>
+                    <?php
+                      $add_sql = "SELECT * from address";
+                      $add_query = mysqli_query($con, $add_sql);
+                      while ($arow = mysqli_fetch_assoc($add_query)) {
+                        echo "<option><p>".$arow['address']."</p></option>";    
+                      }
+                     ?>
+                  </select>
+              </p>
+						<!-- <p>Anandpuri Chowk,Vidyanagar Road,Harmu, Ranchi,Jharkhand</p> -->
 						<p>Contact : 876734878 / 345840358</p>
 					</div>
 				</div>
@@ -40,11 +110,14 @@ $slno = 'SN-'.time();
 								<input type="date" id="date" class="form-control bdr-none" value="" required>
 							</div>
 						</div>
-						<p class="txt-right">GSTIN NO. 979797977d7f97</p>
+						<p class="txt-right">GSTIN NO. 20AMGPV8554R1Z5</p>
 						<div class="row">
 							<div class="col-sm-12 mb10">Messrs
-								<input type="text" id="messrs" class="form-control bdr-none w100p" required>
-								<input type="text" id="messrs1" class="form-control bdr-none w100p">
+								<input type="text" id="messrs" class="form-control bdr-none w100p" >
+								<div class="dflex">
+									Email: <input type="email" id="email" class="form-control bdr-none" style="width:100%" required>
+									Contact: <input type="number" id="contact" class="form-control bdr-none" style="width:100%" required>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -243,10 +316,17 @@ $slno = 'SN-'.time();
 					<div class="dflexc">
 						<div>Rupees in Words</div>&nbsp;&nbsp;&nbsp;
 						<div class="w80p">
-							<input type="text" id="riw" class="form-control bn w100p" required>
+							<input type="text" id="riw" class="form-control bn w100p" >
 							<input type="text" id="riw1" class="form-control bn w100p">
 							<!-- <input type="text" id="riw" class="form-control bn w100p"> -->
 						</div>
+					</div>
+					<div style="margin-top: 10px;margin-bottom: 10px;" id="snfsign">
+						<img src="" alt="" width="200" height="100">
+					</div>
+					<input type="hidden" name="" id="officeSignImg">
+					<div>
+						<button type="button" id="officeSign">Authorised Signature</button>
 					</div>
 					<p class="txtl">Note: Subject to Ranchi Jurisdiction</p>
 				</div>
@@ -294,12 +374,86 @@ $slno = 'SN-'.time();
 		</div>
 	</form>
 	</main>
-
+<div>
+        <!-- sign 2 -->
+        <div class="flex-row" id="sign1">
+         <div class="wrapper">
+             <canvas id="signature-pad1" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear1" type="button"><span> Clear </span></button>
+              <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+        </div>  
+</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js" integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="assets/js/invoice.js"></script>
 	<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#sign1').hide(); 
+
+    // office sign
+    let oSign = $('#officeSign').click(function(){
+      // console.log("officeSign");
+
+      $('#sign1').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad1");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear1").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save1").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendOSignToServer(base64Canvas);
+       })
+       function sendOSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let y = jQuery.parseJSON(r);
+          
+          $('#officeSignImg').val(y.img_name);
+          let img_field = "<img src=upload/"+y.img_name+" alt='' width='200' height='100'>";
+          $('#snfsign').html(img_field);
+          $('#sign1').hide();
+          
+          }
+        });
+      }
+    });
+  })
+
+
+
+		// ================================
 		function getValue() {
 			//Get Data from subtotal
 			let st = getCheckValue("rc");
@@ -340,7 +494,7 @@ $slno = 'SN-'.time();
 			for (let x=0; x<finalamt.length;x++){
 				arg += (finalamt[x]=='e')?'':finalamt[x];
 			}
-			console.log(ids, arg);
+			// console.log(ids, arg);
 			document.getElementById(ids).value=arg;
 			arg=(arg=="")?0:parseFloat(arg);
 			// console.log(ids, arg);
@@ -357,7 +511,8 @@ $slno = 'SN-'.time();
 			let a = document.getElementById("cgstp").value;
 			let y = parseFloat(a);
 
-			document.getElementById("cgstv").value = (x * y)/100;
+			let z = (x * y)/100;
+			document.getElementById("cgstv").value = z.toFixed(2);
 			grandTotal();
 		}
 
@@ -370,7 +525,8 @@ $slno = 'SN-'.time();
 			let a = document.getElementById("sgstp").value;
 			let y = parseFloat(a);
 
-			document.getElementById("sgstv").value = (x * y)/100;
+			let z = (x * y)/100;
+			document.getElementById("sgstv").value = z.toFixed(2);
 			grandTotal();
 		}
 
@@ -383,7 +539,8 @@ $slno = 'SN-'.time();
 			let a = document.getElementById("igstp").value;
 			let y = parseFloat(a);
 
-			document.getElementById("igstv").value = (x * y)/100;
+			let z = (x * y)/100;
+			document.getElementById("igstv").value = z.toFixed(2);
 			grandTotal();
 
 		}
@@ -395,7 +552,7 @@ $slno = 'SN-'.time();
 			let d =getCheckValue("igstv");
 
 			let gt = a + b + c + d;
-			document.getElementById("grand-total").value = gt;
+			document.getElementById("grand-total").value = gt.toFixed(2);
 		}
 
 

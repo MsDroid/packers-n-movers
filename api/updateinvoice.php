@@ -1,19 +1,25 @@
 <?php 
 include '../config.php';
 
+$sadd = $_POST['sadd'];
+$sign = $_POST['sign'];
+$contact = $_POST['contact'];
+$email = $_POST['email'];
 $slno = $_POST['slno'];
 $cdate = $_POST['cdate'];
 $messrs = $_POST['messrs'];
-$messrs1 = $_POST['messrs1'];
 $myjsondata = $_POST['myjsondata'];
 $mjson = $_POST['mjson'];
 $id = $_POST['id'];
 
-$sql = "UPDATE invoices set 
+echo $sql = "UPDATE invoices set 
+	sadd = '$sadd',
+	sign = '$sign',
+	contact = '$contact',
+	email = '$email',
 	slno = '$slno',
 	cdate = '$cdate',
 	messrs = '$messrs',
-	messrs1 = '$messrs1',
 	myjsondata = '$myjsondata',
 	mjson = '$mjson'
  	where id = '{$id}' ";

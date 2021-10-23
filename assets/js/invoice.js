@@ -1,10 +1,15 @@
 $(document).ready(function(){
 	$('#invoiceForm').submit(function(e){
 		e.preventDefault()
+		// alert("hello");
 		let slno = $('#slno').val();
 		let date = $('#date').val();
 		let messrs = $('#messrs').val();
-		let messrs1 = $('#messrs1').val();
+
+		let sadd = $('#site_address').val();
+		let email = $('#email').val();
+		let contact = $('#contact').val();
+		let sign = $('#officeSignImg').val();
 
 		let arr = [];
 		for (var i = 1 ; i <= 20; i++) {
@@ -47,9 +52,9 @@ $(document).ready(function(){
 
 		mjson = JSON.stringify(mobj);
 
-		let dataString = 'slno=' + slno + '&date=' + date + '&messrs=' + messrs + '&messrs1' + messrs1 + '&myjsondata=' + myjsondata + '&mjson=' + mjson;
-
-		$.ajax({
+		if (sadd != '' && email != '' && contact != '' && date != '') {
+				let dataString = 'slno=' + slno + '&cdate=' + date + '&messrs=' + messrs + '&sadd=' + sadd + '&sign=' + sign + '&email=' + email + '&contact=' + contact + '&myjsondata=' + myjsondata + '&mjson=' + mjson;
+				$.ajax({
 			url : "api/createinvoice.php",
 			method : "POST",
 			data : dataString,
@@ -61,8 +66,11 @@ $(document).ready(function(){
 					alert("Somthing Wrong Please Try Again!");
 				}
 			}
-		})
- 
+		});
+		}else{
+			alert("Please Enter Site address, Email,Date and Contact");
+		}
+
 	})
 
 	// ===========================================================================================
@@ -70,11 +78,16 @@ $(document).ready(function(){
 	// =============================================================================================
 $('#invoiceUpdateForm').submit(function(e){
 		e.preventDefault()
+		// alert("updaed");
 		let slno = $('#slno').val();
 		let date = $('#date').val();
 		let messrs = $('#messrs').val();
-		let messrs1 = $('#messrs1').val();
 
+		let sadd = $('#site_address').val();
+		let email = $('#email').val();
+		let contact = $('#contact').val();
+		let sign = $('#officeSignImg').val();
+		
 		let arr = [];
 		for (var i = 1 ; i <= 20; i++) {
 			arr.push(getDataFromRow(i));
@@ -117,8 +130,8 @@ $('#invoiceUpdateForm').submit(function(e){
 		mjson = JSON.stringify(mobj);
 
 		let id = $('#id').val();
-
-		let dataString = 'slno=' + slno + '&date=' + date + '&messrs=' + messrs + '&messrs1' + messrs1 + '&myjsondata=' + myjsondata + '&mjson=' + mjson + '&id=' + id;
+		if (sadd != '' && email != '' && contact != '' && date != '') {
+		let dataString = 'slno=' + slno + '&cdate=' + date + '&messrs=' + messrs + '&sadd=' + sadd + '&sign=' + sign + '&email=' + email + '&contact=' + contact + '&myjsondata=' + myjsondata + '&mjson=' + mjson + '&id=' + id;
 
 		$.ajax({
 			url : "api/updateinvoice.php",
@@ -126,13 +139,16 @@ $('#invoiceUpdateForm').submit(function(e){
 			data : dataString,
 			success:function(r){
 				if (true) {
-					alert("Successfully Created!!");
+					alert("Successfully Updated!!");
 					window.location.href="invoice.php";
 				}else{
 					alert("Somthing Wrong Please Try Again!");
 				}
 			}
 		})
+		}else{
+			alert("Please Enter Site address, Email,Date and Contact");
+		}
  
 	})
 

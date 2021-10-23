@@ -752,7 +752,7 @@ $consign_no = 'SNF-'.time();
              <button id="clear" type="button"><span> Clear </span></button>
               <button id="save" type="button" class="btn btn-primary"><span> SAVE </span></button>
          </div>
-      </div>
+        </div>
         <!-- sign 2 -->
         <div class="flex-row" id="sign1">
          <div class="wrapper">
@@ -762,7 +762,7 @@ $consign_no = 'SNF-'.time();
              <button id="clear1" type="button"><span> Clear </span></button>
               <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
          </div>
-      </div>  
+        </div>  
       </div>
       <footer>
         <div class="container-fluid">

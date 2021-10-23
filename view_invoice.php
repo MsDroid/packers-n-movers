@@ -1,5 +1,5 @@
 <?php
-
+include 'config.php';
 if (isset($_GET['id']) & $_GET['id'] != '') {
   $id = $_GET['id'];
  }
@@ -22,14 +22,24 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 				</div>
 				<div class="col-sm-5">
 					<div class="dflex">
-						<p>Regd. No. 98877</p>
+						<p>Regd. No. </p>
 						<p>Invoice</p>
 					</div>
 					<div>
 						<h1>SAFE-N-FAST PACKERS & MOVERS</h1>
 					</div>
 					<div>
-						<p>Anandpuri Chowk,Vidyanagar Road,Harmu, Ranchi,Jharkhand</p>
+						<p>
+							<select class="form-control address" id="site_address" style="font-size: 10px;overflow: visible;width: 107%;text-align: center;border: none;margin: 0;padding: 0;">
+                    <option>Select Address</option>
+                    <?php
+                      $add_sql = "SELECT * from address";
+                      $add_query = mysqli_query($con, $add_sql);
+                      while ($arow = mysqli_fetch_assoc($add_query)) {
+                        echo "<option><p>".$arow['address']."</p></option>";    
+                      }
+                     ?>
+                  </select></p>
 						<p>Contact : 876734878 / 345840358</p>
 					</div>
 				</div>
@@ -43,11 +53,14 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 								<input disabled type="date" id="date" class="form-control bdr-none" value="" required>
 							</div>
 						</div>
-						<p class="txt-right">GSTIN NO. 979797977d7f97</p>
+						<p class="txt-right">GSTIN NO. 20AMGPV8554R1Z5</p>
 						<div class="row">
 							<div class="col-sm-12 mb10">Messrs
 								<input disabled type="text" id="messrs" class="form-control bdr-none w100p" required>
-								<input disabled type="text" id="messrs1" class="form-control bdr-none w100p">
+								<div class="dflex">
+									Email: <input type="email" id="email" class="form-control bdr-none" style="width:100%">
+									Contact: <input type="number" id="contact" class="form-control bdr-none" style="width:100%">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -251,6 +264,13 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 							<!-- <input disabled type="text" id="riw" class="form-control bn w100p"> -->
 						</div>
 					</div>
+					<div style="margin-top: 10px;margin-bottom: 10px;" id="snfsign">
+						<img src="" alt="" width="200" height="100">
+					</div>
+					<!-- <input type="hidden" name="" id="officeSignImg"> -->
+					<div>
+						<button type="button" id="officeSign">Authorised Signature</button>
+					</div>
 					<p class="txtl">Note: Subject to Ranchi Jurisdiction</p>
 				</div>
 				<div class="col-sm-4">
@@ -313,11 +333,15 @@ if (isset($_GET['id']) & $_GET['id'] != '') {
 				let x = jQuery.parseJSON(r);
 				let o = jQuery.parseJSON(x.myjsondata);
 				let y = jQuery.parseJSON(x.mjson);
-				console.log(y);
+				console.log(x);
 				$('#slno').val(x.slno);
 				$('#date').val(x.cdate);
 				$('#messrs').val(x.messrs);
-				$('#messrs1').val(x.messrs1);
+				$('#site_address').val(x.sadd);
+				$('#email').val(x.email);
+				$('#contact').val(x.contact);
+				let img_field = "<img src=upload/"+x.sign+" alt='' width='200' height='100'>";
+        $('#snfsign').html(img_field);
 
 				// insert fetch data
 				for (let i = 0; i < o.length; i++)

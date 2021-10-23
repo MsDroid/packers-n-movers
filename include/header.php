@@ -154,14 +154,14 @@ $(function() {
           <!-- Address -->
           <li class="nav-item">
             <a class="nav-link" href="address.php">
-              <i class="mdi mdi-account-plus text-primary menu-icon"></i>
+              <i class="mdi mdi-book-open menu-icon"></i>
               <span class="menu-title">Address</span>
             </a>
           </li>
           <!-- Money Receipt -->
           <li class="nav-item">
             <a class="nav-link" href="money_receipt.php">
-              <i class="mdi mdi-account-plus text-primary menu-icon"></i>
+              <i class="mdi mdi-clipboard-outline text-primary menu-icon"></i>
               <span class="menu-title">Money Receipt</span>
             </a>
           </li>
@@ -175,7 +175,7 @@ $(function() {
           <!-- City -->
           <li class="nav-item">
             <a class="nav-link" href="city.php">
-              <i class="mdi mdi-account-plus text-primary menu-icon"></i>
+              <i class="mdi mdi-google-maps text-primary menu-icon"></i>
               <span class="menu-title">City</span>
             </a>
           </li>

@@ -1,15 +1,17 @@
 <?php 
 include '../config.php';
 
-
+$sadd = $_POST['sadd'];
+$sign = $_POST['sign'];
+$contact = $_POST['contact'];
+$email = $_POST['email'];
 $slno = $_POST['slno'];
-$cdate = $_POST['date'];
+$cdate = $_POST['cdate'];
 $messrs = $_POST['messrs'];
-$messrs1 = $_POST['messrs1'];
 $myjsondata = $_POST['myjsondata'];
 $mjson = $_POST['mjson'];
 
-$sql = "insert into invoices (slno,cdate,messrs,messrs1,myjsondata,mjson) values ('{$slno}','{$cdate}','{$messrs}','{$messrs1}','{$myjsondata}','{$mjson}')";
+$sql = "insert into invoices (sadd,email,contact,sign,slno,cdate,messrs,myjsondata,mjson) values ('{$sadd}','{$email}','{$contact}','{$sign}','{$slno}','{$cdate}','{$messrs}','{$myjsondata}','{$mjson}')";
 $query = mysqli_query($con, $sql);
 
 if ($query) {

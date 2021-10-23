@@ -70,7 +70,7 @@ tfoot{
 }
 .txtl{
 	text-align: left;
-	margin-top: 10%;
+	/*margin-top: 10%;*/
 }
 .bgcol{
 	   background-color: firebrick!important;
