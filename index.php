@@ -77,6 +77,24 @@ $ccount = mysqli_num_rows($cquery);
                 </div>
         </div>
 
+<!-- Link send -->
+<?php 
+$csql = "select * from link";
+$cquery = mysqli_query($con, $csql);
+$ccount = mysqli_num_rows($cquery);
+ ?>
+<div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                        <div class="inner">
+                                <h3><?php echo $ccount; ?></h3>
+                                <p>Link </p>
+                        </div>
+                        <div class="icon">
+                                <i class="mdi mdi-car menu-icon"></i>
+                        </div>
+                </div>
+        </div>
+
 <!-- users -->
 <?php 
 $usql = "select * from users";

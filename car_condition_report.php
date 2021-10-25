@@ -21,9 +21,60 @@ $media_number = rand().time();
 
     <!-- custom css -->
     <link rel="stylesheet" type="text/css" href="assets/style.css">
+<!-- dropzone css -->
+  <link rel="stylesheet" href="assets/css/dropzone.css" />
 
     <title>Car Condition Report</title>
-
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+    /** {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        background: #ececec;
+        overflow: hidden;
+    }*/
+    .flex-row {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+        z-index: 25;
+    }
+    .wrapper {
+        border: 1px solid #4b00ff;
+        border-right: 0;
+    }
+    canvas#signature-pad,canvas#signature-pad1 {
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+    }
+    button#clear,button#clear1 {
+        height: 100%;
+        background: #4b00ff;
+        border: 1px solid transparent;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    button#clear span{
+        transform: rotate(90deg);
+        display: block;
+    }
+    button#clear1 span{
+        transform: rotate(90deg);
+        display: block;
+    }
+  
+    </style>
   </head>
   <body>
     <header id="car_condition_topbar">
@@ -146,7 +197,7 @@ $media_number = rand().time();
             <input type="text" class="form-control bdr-none" id="eng_no" required placeholder="Engine No.">
           </div>
           <div class="col-md-3">
-            <input type="number" class="form-control bdr-none" id="fuel" required placeholder="Fuel ( Petrol / Diesel )">
+            <input type="text" class="form-control bdr-none" id="fuel" required placeholder="Fuel ( Petrol / Diesel )">
           </div>
           <div class="col-md-3">
             <input type="text" class="form-control bdr-none" id="f_l_tyre_no" placeholder="Tyre Serial No. Front(L)">
@@ -158,7 +209,7 @@ $media_number = rand().time();
             <input type="text" class="form-control bdr-none" id="r_l_tyre_no" required placeholder="Rear(L)">
           </div>
           <div class="col-md-3">
-            <input type="number" class="form-control bdr-none" id="r_r_tyre_no" required placeholder="Rear(R)">
+            <input type="text" class="form-control bdr-none" id="r_r_tyre_no" required placeholder="Rear(R)">
           </div>
         </div>
         <div class="row">
@@ -300,6 +351,13 @@ $media_number = rand().time();
               <center>
                 <img src="car_condition.jpg" alt="car condition report">  
               </center>
+              <!-- dropzone -->
+              <div>
+              <form action="img-parse.php" class="dropzone d1 col-md-12 x-magic-form upload-frm">
+                  <input type="hidden" value="<?php echo $media_number; ?>" class="media_number" name="media-number"/>
+                </form> 
+              </div>
+                <!-- end dropzone -->
             </div>
           </div>
         </div>
@@ -309,11 +367,11 @@ $media_number = rand().time();
             <div class="note">
               <p>Note: We are not Responsible any Bettery and Mechenical Problem.</p>
             </div>
-            <div style="text-align:center">
-              <img src="" alt="" width="200" height="100">
-            </div>            
             <h3>
-              <button data-bs-toggle="modal" data-bs-target="#cModal" type="button">SIGNATURE OF CONSIGNOR
+               <div id="signChild"></div>
+                <input type="hidden" name="" id="partySignImg" value="">
+              <button type="button" id="partySign">
+                SIGNATURE OF CONSIGNOR
               </button>
             </h3>
           </div>
@@ -322,11 +380,11 @@ $media_number = rand().time();
               <input type="hidden" value="<?php echo $media_number; ?>" id="m_no" class="media_number" name="media-number-c"/>
               <!-- <button type="button" id="img_upload" onclick="uploadImg()" class="btn btn-warning">Image upload</button>   -->
             </div>
-            <div style="text-align:center">
-              <img src="" alt="" width="200" height="100">
-            </div>
             <h3>
-              <button data-bs-toggle="modal" data-bs-target="#oModal" type="button">Authorised Signatory
+              <div id="snfsign"></div>
+                  <input type="hidden" id="officeSignImg" value="">
+              <button type="button" id="officeSign">
+                Authorised Signatory
               </button>
             </h3>
           </div>
@@ -339,50 +397,29 @@ $media_number = rand().time();
         <button class="btn btn-success" onclick="createCarConditionReport()" type="button">Generate</button>
       </div>
     </main>
-    <!-- =================================================== -->
-   <!-- Button trigger modal -->
+<div>
+        <!-- sign one -->
+      <div class="flex-row" id="sign">
+         <div class="wrapper">
+             <canvas id="signature-pad" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear" type="button"><span> Clear </span></button>
+              <button id="save" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+        </div>
+        <!-- sign 2 -->
+        <div class="flex-row" id="sign1">
+         <div class="wrapper">
+             <canvas id="signature-pad1" width="400" height="200"></canvas>
+         </div>
+         <div class="clear-btn">
+             <button id="clear1" type="button"><span> Clear </span></button>
+              <button id="save1" type="button" class="btn btn-primary"><span> SAVE </span></button>
+         </div>
+        </div>  
+      </div>
 
-<!-- Modal -->
-<div class="modal fade" id="cModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Party Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ============================================================= -->
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="oModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Office Sign</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- =================================================================== -->
 
     
 
@@ -391,17 +428,129 @@ $media_number = rand().time();
 
     <!--Get your code at fontawesome.com-->
     <script src="https://kit.fontawesome.com/bb74ce6b04.js" crossorigin="anonymous"></script>
-
+<!-- dropzone -->
+<script type="text/javascript" src="assets/js/dropzone.js"></script>
     <!-- jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.3.5/signature_pad.min.js" integrity="sha512-kw/nRM/BMR2XGArXnOoxKOO5VBHLdITAW00aG8qK4zBzcLVZ4nzg7/oYCaoiwc8U9zrnsO9UHqpyljJ8+iqYiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
 
 <script type="text/javascript">
   
-  function uploadImg(){
-    alert("hello");
-  }
+ $(document).ready(function(){
+    $('#sign').hide(); 
+    $('#sign1').hide(); 
+
+    let pSign = $('#partySign').click(function(){
+      // console.log("partySign");
+
+      $('#sign').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendPSignToServer(base64Canvas);
+       })
+
+       function sendPSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          // console.log(r);
+          let x = jQuery.parseJSON(r);
+          // console.log(x.img_name);
+          $('#partySignImg').val(x.img_name);
+          let img_field = "<img src=upload/"+x.img_name+" alt='' width='200' height='100'>";
+          $('#signChild').html(img_field);
+          $('#sign').hide();
+          
+          }
+        });
+      }
+    });
+
+    // office sign
+    let oSign = $('#officeSign').click(function(){
+      // console.log("officeSign");
+
+      $('#sign1').show();
+      // signature part
+      let mycanvas = document.getElementById("signature-pad1");
+
+       function resizeCanvas() {
+           var ratio = Math.max(window.devicePixelRatio || 1, 1);
+           mycanvas.width = 750;//canvas.offsetWidth * ratio;
+           mycanvas.height = 400;//canvas.offsetHeight * ratio;
+           mycanvas.getContext("2d").scale(ratio, ratio);
+           // console.log("GDWGDYG____________________________");
+       }
+       window.onresize = resizeCanvas;
+       resizeCanvas();
+
+       let signaturePad = new SignaturePad(mycanvas);
+
+       document.getElementById("clear1").addEventListener('click', function(){
+        signaturePad.clear();
+       })
+
+       document.getElementById("save1").addEventListener('click', function(){
+        var img    = mycanvas.toDataURL("image/png");
+
+        // document.write('<img src="'+img+'"/>');
+
+        const base64Canvas = mycanvas.toDataURL("image/png").split(';base64,')[1];
+        
+        sendOSignToServer(base64Canvas);
+       })
+       function sendOSignToServer(sig){
+        $.ajax({
+        url : "thumbnail-uploader-content.php",
+        method : "POST",
+        data : {
+          'thumbnail':sig
+          },
+          success:function(r){
+          console.log(r);
+          let y = jQuery.parseJSON(r);
+          
+          $('#officeSignImg').val(y.img_name);
+          let img_field = "<img src=upload/"+y.img_name+" alt='' width='200' height='100'>";
+          $('#snfsign').html(img_field);
+          $('#sign1').hide();
+          
+          }
+        });
+      }
+    });
+})
+
+  
 </script>
 
 

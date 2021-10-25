@@ -6,9 +6,11 @@ include 'include/header.php'; ?>
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="col-sm-6"><h4 class="card-title"></h4></div>
                 <div class="col-sm-6">
-                        <a href="add_invoice.php"><button type="button" class="btn btn-primary adUserbtn">create</button></a>        
+                  <!-- <h4 class="card-title">All Users</h4> -->
+                </div>
+                <div class="col-sm-6">
+                        <a href="add_link.php"><button type="button" class="btn btn-primary adUserbtn">Create</button></a>        
                 </div>
               </div>
               
@@ -19,16 +21,18 @@ include 'include/header.php'; ?>
                       <thead>
                         <tr>
                             <th>#</th>
-                            <!-- <th>State</th> -->
-                            <th>Sl no</th>
-                            <th>Date</th>
-                            <th>Messrs</th>
-                            <th>Actions</th>
+                            <th>Invoice no</th>
+                            <th>Consignment no</th>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Remark</th>
+                            <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                          <?php 
-                        $sql = "select * from invoices";
+                        $sql = "select * from link";
                         $query = mysqli_query($con, $sql);
                         $count = mysqli_num_rows($query);
                         if ($count > 0 ) { 
@@ -36,22 +40,21 @@ include 'include/header.php'; ?>
                           while($row = mysqli_fetch_assoc($query)){ ?>
                               <tr>
                                 <td><?php echo $n; ?></td>
-                               <td><?php echo $row['slno']; ?></td>
-                                <td><?php echo $row['cdate']; ?></td>
-                                <td><?php echo $row['messrs']; ?></td>
+                                <td><?php echo $row['invoice_no']; ?></td>
+                                <td><?php echo $row['c_no']; ?></td>
+                               <td>
+                                  <?php 
+                                    ($row['status'] == 0)? echo "<span style='color:yellow;'>Pending</span>"; : echo "<span style='color:green'>confirmed</span>"?>
+                                      
+                                </td>
+                                <td><?php echo $row['title']; ?></td>
+                                <td><?php echo $row['description']; ?></td>
+                                <td><?php echo $row['remarks']; ?></td>
+                                
                                 <td>
-                                  <a href="id=<?php echo $row['id'];?>">
-                                          <button class='btn btn-outline-warning'>Share</button>  
-                                        </a>
-                                  <a href="view_invoice.php?id=<?php echo $row['id']; ?>">
-                                    <button class="btn btn-outline-primary">View</button>  
-                                  </a>
-                                  <a href="edit_invoice.php?id=<?php echo $row['id']; ?>">
-                                    <button class="btn btn-outline-primary">Edit</button>  
-                                  </a>
-                                  <!-- <a href="api/delete_city.php?id=<?php echo $row['id']; ?>">
+                                  <a href="api/delete_user.php?id=<?php echo $row['id']; ?>">
                                     <button class="btn btn-outline-primary">Delete</button>  
-                                  </a> -->
+                                  </a>
                                   
                                 </td>
                               </tr>

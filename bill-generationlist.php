@@ -42,6 +42,9 @@ include 'include/header.php';
                                       <td><?php echo $row['toadd']; ?></td>
                                       <td><?php echo $row['inspt']; ?></td>
                                       <td>
+                                        <a href="id=<?php echo $row['id'];?>">
+                                          <button class='btn btn-outline-warning'>Share</button>  
+                                        </a>
                                         <a href="view_bills.php?id=<?php echo $row['id'];?>">
                                           <button class='btn btn-outline-info'>View</button>  
                                         </a>

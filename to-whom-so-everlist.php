@@ -42,6 +42,9 @@ include 'include/header.php';
                             <td><?php echo $rows['toaddress']; ?></td>
                             <td><?php echo $rows['cnoteno']; ?></td>
                             <td>
+                              <a href="id=<?php echo $row['id'];?>">
+                                          <button class='btn btn-outline-warning'>Share</button>  
+                                        </a>
                               <a href="view-to-whom-so-ever.php?id=<?php echo $rows['id']; ?>">
                                   <button class="btn btn-outline-primary">View</button>    
                               </a>

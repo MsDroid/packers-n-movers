@@ -43,6 +43,9 @@ include 'config.php';
                                 <td><?php echo $row['toadd']; ?></td>
                                 <td><?php echo $row['no']; ?></td>
                                 <td>
+                                  <a href="id=<?php echo $row['id'];?>">
+                                          <button class='btn btn-outline-warning'>Share</button>  
+                                        </a>
                                   <a href="view_quotation.php?id=<?php echo $row['id'];?>">
                                     <button class='btn btn-outline-info'>View</button>  
                                   </a>

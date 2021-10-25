@@ -41,10 +41,13 @@ include 'include/header.php'; ?>
                                 <td><?php echo $row['toadd']; ?></td>
                                 <td><?php echo $row['mob']; ?></td>
                                 <td>
-                                  <a href="view-car-condition.php">
+                                  <a href="id=<?php echo $row['id'];?>">
+                                          <button class='btn btn-outline-warning'>Share</button>  
+                                        </a>
+                                  <a href="view-car-condition.php?id=<?php echo $row['id']; ?>">
                                     <button class="btn btn-outline-primary">View</button>  
                                   </a>
-                                  <a href="edit-car-condition.php">
+                                  <a href="edit-car-condition.php?id=<?php echo $row['id']; ?>">
                                     <button class="btn btn-outline-primary">Edit</button>  
                                   </a>
                                 </td>

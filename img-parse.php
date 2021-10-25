@@ -4,7 +4,7 @@ include ('config.php');
 
 	$product_number = $_REQUEST['media-number'];	
 
-	$targetDir = "uploads/";
+	$targetDir = "car-condition-img/";
 
 	$fileName = time().rand().$_FILES['file']['name'];
 
